@@ -1,0 +1,37 @@
+:host {
+  background-color: #F0F0F0;
+  height: 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.icons {
+  display: flex;
+  a {
+    margin: 0 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+
+  a:hover {
+    color: #136B2B;
+    img {
+      filter: brightness(0) saturate(100%) invert(28%) sepia(11%) saturate(6050%) hue-rotate(100deg) brightness(95%) contrast(85%);
+    }
+  }
+
+  img {
+    width: 42px;
+    height: 42px;
+  }
+}

@@ -1,0 +1,39 @@
+<div class="left-logo">
+  <img src="/images/logo_lg.png" alt="Logo TaFeito (lg)">
+</div>
+
+<form [formGroup]="form" (ngSubmit)="login()">
+  <h2>Entrar na sua Conta</h2>
+
+  <div class="inputs-container">
+    <div class="tf-form-field">
+      <label for="email">E-mail</label>
+      <input tfInput id="email" placeholder="Insira seu e-mail"
+      formControlName="email"
+      [ngClass]="{
+        'tf-input-invalid': form.get('email')?.invalid && form.get('email')?.touched,
+        'tf-input-valid': form.get('email')?.valid && form.get('email')?.touched
+      }"
+      mask="A*@A*.A*" [validation]="true" [dropSpecialCharacters]="false"
+      />
+    </div>
+
+    <div class="tf-form-field">
+      <label for="password">Senha</label>
+      <input tfInput id="password" placeholder="Insira sua senha" type="password"
+      formControlName="password"
+      [class]="{
+        'tf-input-invalid': form.get('password')?.invalid && form.get('password')?.touched && form.get('password')?.hasError('invalidPassword'),
+        'tf-input-valid': form.get('password')?.valid && form.get('password')?.touched
+      }"
+      />
+      <p class="forgot-password">Esqueceu sua senha? <span>Redefinir senha</span></p>
+    </div>
+  </div>
+
+  <div class="button-redirect-container">
+    <button tfButton color="primary" type="submit">Entrar</button>
+
+    <p class="redirect-login-signup">Não tem conta? <a [routerLink]="['/signup']">Criar conta</a></p>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+:host {
+  border-radius: 6px;
+  border: 1px solid #F0F0F0;
+  background: #FFF;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  font-size: 18px;
+  padding: 8px;
+}
+
+:host(.tf-input-invalid) {
+  border: 1px solid #FF0000;
+}
+
+:host(.tf-input-valid) {
+border: 1px solid #30B43C;
+}
+
+:host(:focus) {
+  border: 1px solid #30B43C;
+  outline:1px solid #30B43C;
+  box-shadow: none;
+}

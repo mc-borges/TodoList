@@ -1,0 +1,33 @@
+:host {
+  margin-top: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  padding: 0 42px;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  p {
+    font-size: 18px;
+  }
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}

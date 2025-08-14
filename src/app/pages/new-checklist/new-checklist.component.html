@@ -1,0 +1,54 @@
+<img src="/images/icon_arrow_left.svg" alt="Seta para esquerda" [routerLink]="['/home']" class="return-arrow">
+
+<h4>Nova Checklist</h4>
+
+<div class="main-container">
+  <img src="/images/img_man_checking_list.png" alt="Figura de um homem marcando uma lista">
+
+  <form [formGroup]="form" (ngSubmit)="createChecklist()">
+    <div class="inputs-container">
+      <div class="tf-form-field">
+        <label for="name">Nome*</label>
+        <input tfInput id="name" placeholder="Insira seu nome completo" formControlName="name"
+        [class]="{
+          'tf-input-invalid': form.get('name')?.invalid && form.get('name')?.touched,
+          'tf-input-valid': form.get('name')?.valid && form.get('name')?.touched
+        }"
+        />
+      </div>
+
+      <div class="tf-form-field">
+        <label for="category">Categoria (Opcional)</label>
+        <input tfInput id="category" placeholder="Insira uma categoria" type="text" formControlName="category" />
+      </div>
+
+      <div class="tf-form-field">
+        <label for="description">Descrição (Opcional)</label>
+        <textarea id="description" placeholder="Insira uma descrição" formControlName="description"></textarea>
+      </div>
+
+      <div class="tf-form-field">
+        <label for="limitDate">Prazo (Opcional)</label>
+        <input tfInput id="limitDate" placeholder="DD/MM/AAAA" type="text" formControlName="limitDate" />
+        <p>*Campo obrigatório</p>
+      </div>
+
+      <div class="checkboxes-container">
+        <div>
+          <input tfInput id="changeColorByDate" type="checkbox" formControlName="changeColorByDate" class="checkbox" />
+          <label for="changeColorByDate">Ativar coloração por prazo </label>
+        </div>
+
+        <div>
+          <input tfInput id="showMotivationalMsg" type="checkbox" formControlName="showMotivationalMsg" class="checkbox" />
+          <label for="showMotivationalMsg">Mostrar mensagem motivacional </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons-redirect-container">
+      <button tfButton color="primary" type="submit">Entrar</button>
+      <button tfButton color="secondary" type="reset">Limpar dados</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,82 @@
+:host {
+  position: relative;
+}
+
+.return-arrow {
+  position: absolute;
+  top: 40px;
+  left: 32px;
+  cursor: pointer;
+}
+
+h4 {
+  padding: 40px 0 24px 0;
+}
+
+.main-container {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 64px;
+  padding: 36px 0;
+  img {
+    height: fit-content;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  label {
+    font-size: 18px;
+  }
+}
+
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 650px;
+  .tf-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    p {
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.25);
+      align-self: end;
+    }
+    .forgot-password {
+      margin-top: 4px;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.50);
+      span {
+        text-decoration: underline;
+        color: #30B43C;
+        cursor: pointer;
+      }
+    }
+    textarea {
+      min-height: 110px;
+    }
+  }
+  .checkboxes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    div {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+  }
+}
+
+.buttons-redirect-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px 0;
+  gap: 16px;
+}

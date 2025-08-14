@@ -1,0 +1,38 @@
+:host {
+  width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0;
+  font-size: 20px;
+  border-radius: 56px;
+  font-weight: 700;
+  font-family: 'Arial', sans-serif;
+  cursor: pointer;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+:host(.primary) {
+  background: #30B43C;
+  color: #fff;
+  border: none;
+}
+
+:host(.primary):hover {
+  background: #136B2B;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+:host(.secondary) {
+  background: #fff;
+  color: #30B43C;
+  border: 1px solid #30B43C;
+}
+
+:host(.secondary):hover {
+  border: 1.5px solid #136B2B;
+  color: #136B2B;
+  background: rgba(19, 107, 43, 0.05);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}

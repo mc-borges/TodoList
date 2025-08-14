@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  font-family: "Nunito", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h2 {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+}
+
+h4 {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+
+textarea {
+  border-radius: 6px;
+  border: 1px solid #F0F0F0;
+  background: #FFF;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  font-size: 18px;
+  padding: 8px;
+}
+
+textarea .tf-input-invalid {
+  border: 1px solid #FF0000;
+}
+
+textarea .tf-input-valid {
+border: 1px solid #30B43C;
+}
+
+textarea :focus {
+  border: 1px solid #30B43C;
+  outline:1px solid #30B43C;
+  box-shadow: none;
+}
