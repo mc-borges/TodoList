@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../components/button/button.component';
 import { InputComponent } from '../../components/input/input.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -22,7 +22,7 @@ export class SignupComponent {
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', Validators.required],
@@ -35,6 +35,8 @@ export class SignupComponent {
   signup() {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
+
+    this.router.navigate(['login']);
 
     console.log(this.form.getRawValue());
   }

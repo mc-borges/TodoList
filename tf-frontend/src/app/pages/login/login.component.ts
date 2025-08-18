@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { InputComponent } from '../../components/input/input.component';
 import { ButtonComponent } from '../../components/button/button.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
@@ -17,7 +17,7 @@ import { CustomPasswordValidator } from '../../helpers/validators/custom-passwor
 export class LoginComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.form = this.fb.group({
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6), CustomPasswordValidator]],
@@ -27,6 +27,8 @@ export class LoginComponent {
   login() {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
+
+    this.router.navigate(['home']);
 
     console.log(this.form.getRawValue());
   }

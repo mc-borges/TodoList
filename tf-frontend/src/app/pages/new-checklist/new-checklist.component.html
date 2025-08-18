@@ -1,4 +1,4 @@
-<img src="/images/icon_arrow_left.svg" alt="Seta para esquerda" [routerLink]="['/home']" class="return-arrow">
+<img src="/images/icon_arrow_left.svg" alt="Seta para esquerda" (click)="return()" class="return-arrow">
 
 <h4>Nova Checklist</h4>
 
@@ -29,26 +29,37 @@
 
       <div class="tf-form-field">
         <label for="limitDate">Prazo (Opcional)</label>
-        <input tfInput id="limitDate" placeholder="DD/MM/AAAA" type="text" formControlName="limitDate" />
+        <input matInput tfInput id="limitDate" placeholder="DD/MM/AAAA" type="text" formControlName="limitDate" readonly="true" [matDatepicker]="dpLimit" [min]="today" (click)="dpLimit.open()" />
+        <mat-datepicker #dpLimit></mat-datepicker>
         <p>*Campo obrigatório</p>
       </div>
 
       <div class="checkboxes-container">
         <div>
           <input tfInput id="changeColorByDate" type="checkbox" formControlName="changeColorByDate" class="checkbox" />
-          <label for="changeColorByDate">Ativar coloração por prazo </label>
+          <label for="changeColorByDate">Ativar coloração por prazo</label>
+          <mat-icon
+          clickableTooltip
+          matTooltip="Ative para que o sistema altere a cor da checklist automaticamente de acordo com o prazo. (Verde: +3 dias, Amarelo: 1 a 3 dias, Vermelho: 24 hr)."
+          matTooltipPosition="after"
+          >info</mat-icon>
         </div>
 
         <div>
           <input tfInput id="showMotivationalMsg" type="checkbox" formControlName="showMotivationalMsg" class="checkbox" />
-          <label for="showMotivationalMsg">Mostrar mensagem motivacional </label>
+          <label for="showMotivationalMsg">Mostrar mensagem motivacional</label>
+          <mat-icon
+          clickableTooltip
+          matTooltip="Ative para receber mensagens motivacionais durante e ao concluir suas tarefas!"
+          matTooltipPosition="after"
+          >info</mat-icon>
         </div>
       </div>
     </div>
 
     <div class="buttons-redirect-container">
       <button tfButton color="primary" type="submit">Entrar</button>
-      <button tfButton color="secondary" type="reset">Limpar dados</button>
+      <button tfButton color="secondary" type="button" (click)="resetCheckboxes()">Limpar dados</button>
     </div>
   </form>
 </div>
