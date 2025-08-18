@@ -22,8 +22,23 @@ export const routes: Routes = [
     title: 'Tá Feito - Página Principal'
   },
   {
-    path: 'new',
+    path: 'new-checklist',
     loadComponent: () => import('./pages/new-checklist/new-checklist.component').then((m) => m.NewChecklistComponent),
     title: 'Tá Feito - Nova Checklist'
+  },
+  {
+    path: 'edit-checklist/:id',
+    loadComponent: () => import('./pages/edit-checklist/edit-checklist.component').then((m) => m.EditChecklistComponent),
+    title: 'Tá Feito - Editar Checklist'
+  },
+  {
+    path: 'redefine-password',
+    loadComponent: () => import('./pages/redefine-password/redefine-password.component').then((m) => m.RedefinePasswordComponent),
+    title: 'Tá Feito - Redefinir Senha'
+  },
+  {
+    path: 'confirm-email',
+    loadComponent: () => import('./pages/confirm-email/confirm-email.component').then((m) => m.ConfirmEmailComponent),
+    title: 'Tá Feito - Confirmar Email'
   }
 ];

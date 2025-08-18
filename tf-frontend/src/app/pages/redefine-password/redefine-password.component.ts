@@ -1,43 +1,41 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CustomPasswordValidator } from '../../helpers/validators/custom-password.validator';
+import { NgClass } from '@angular/common';
 import { ButtonComponent } from '../../components/button/button.component';
 import { InputComponent } from '../../components/input/input.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgClass } from '@angular/common';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
-import { CustomPasswordValidator } from '../../helpers/validators/custom-password.validator';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '../../services/loading.service';
 
 @Component({
-  selector: 'tf-signup',
+  selector: 'app-redefine-password',
   standalone: true,
-  imports: [InputComponent, ButtonComponent, RouterLink, ReactiveFormsModule, NgClass, NgxMaskDirective, NgxMaskPipe],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+  imports: [InputComponent, ButtonComponent, ReactiveFormsModule, NgClass],
+  templateUrl: './redefine-password.component.html',
+  styleUrl: './redefine-password.component.scss'
 })
-export class SignupComponent {
+export class RedefinePasswordComponent {
   form: FormGroup;
-  usernamePattern = {
-    'A': {
-      pattern: new RegExp('[A-Za-zÀ-ÿ ]')
-    }
-  };
 
   constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private loading: LoadingService) {
     this.form = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6), CustomPasswordValidator]],
+      passwordConfirm: ['', [Validators.required, Validators.minLength(6), CustomPasswordValidator]],
     });
 
   }
 
-  signup() {
+  redefinePassword() {
     this.form.markAllAsTouched();
     if (this.form.invalid) {
       this.toastr.error('É necessário preencher todos os campos.');
+
+      return;
+    }
+
+    if (this.form.get('password')?.value !== this.form.get('passwordConfirm')?.value) {
+      this.toastr.error('As senhas devem ser iguais. Verifique os campos e tente novamente.');
 
       return;
     }
@@ -46,7 +44,7 @@ export class SignupComponent {
 
     console.log(this.form.getRawValue());
 
-    this.toastr.success('Cadastro realizado com sucesso.');
+    this.toastr.success('Senha redefinida com sucesso.');
   }
 
   hasNumber(value: string): boolean {

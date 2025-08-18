@@ -1,0 +1,40 @@
+<div class="left-logo">
+  <img src="/images/logo_lg.png" alt="Logo TaFeito (lg)">
+</div>
+
+<form [formGroup]="form" (ngSubmit)="confirmEmail()">
+  <div class="text-container">
+    <h2>Confirmar E-mail</h2>
+
+    <div>
+      <p>Você está quase lá!</p>
+      <p>Enviamos um e-mail com um código de confirmação para verificar se é você mesmo.</p>
+    </div>
+  </div>
+
+  <div class="otp-container">
+    <p>Inserir código</p>
+    <ng-otp-input class="tf-otp-input-container" formControlName="confirmationCode"
+    [config]="{
+      length: 6,
+      allowNumbersOnly: true,
+      inputStyles: {
+        'width': '37px',
+        'height': '45px',
+        'padding': '10px',
+        'border-radius': '8px',
+        'border': '1px solid #F0F0F0',
+        'box-shadow': '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
+        'font-size': '18px',
+        'font-family': 'Nunoto Sans, sans-serif',
+        'margin': '0 16px'
+      }
+    }"></ng-otp-input>
+  </div>
+
+  <div class="button-redirect-container">
+    <button tfButton color="primary" type="submit">Confirmar código</button>
+
+    <p class="resend-code">Não recebeu o código? <span (click)="resendCode()">Reenviar</span></p>
+  </div>
+</form>

@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap");
+@import 'ngx-toastr/toastr';
 
 * {
   font-family: "Nunito", sans-serif;
@@ -42,6 +43,10 @@ textarea :focus {
   border: 1px solid #30B43C;
   outline:1px solid #30B43C;
   box-shadow: none;
+}
+
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: #30B43C;
 }
 
 html, body { height: 100%; }

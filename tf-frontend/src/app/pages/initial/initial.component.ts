@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ButtonComponent } from '../../components/button/button.component';
 import { RouterLink } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-initial',
@@ -10,5 +11,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './initial.component.scss'
 })
 export class InitialComponent {
-
+  constructor(private loading: LoadingService) {}
 }

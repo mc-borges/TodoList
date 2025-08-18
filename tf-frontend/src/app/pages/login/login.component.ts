@@ -6,6 +6,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgClass } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { CustomPasswordValidator } from '../../helpers/validators/custom-password.validator';
+import { MatDialog } from '@angular/material/dialog';
+import { ForgotPasswordComponent } from '../../components/forgot-password-modal/forgot-password-modal.component';
+import { ToastrService } from 'ngx-toastr';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'tf-login',
@@ -17,7 +21,7 @@ import { CustomPasswordValidator } from '../../helpers/validators/custom-passwor
 export class LoginComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private modal:MatDialog, private toastr: ToastrService, private loading: LoadingService) {
     this.form = this.fb.group({
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6), CustomPasswordValidator]],
@@ -26,10 +30,22 @@ export class LoginComponent {
 
   login() {
     this.form.markAllAsTouched();
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.toastr.error('É necessário preencher todos os campos.');
 
-    this.router.navigate(['home']);
+      return;
+    }
+
+    this.router.navigate(['confirm-email']);
 
     console.log(this.form.getRawValue());
+
+    this.toastr.success('Login realizado.');
+  }
+
+  openForgotPasswordModal() {
+    this.modal.open(ForgotPasswordComponent, {
+      width: '695px',
+    });
   }
 }

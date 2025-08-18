@@ -1,44 +1,30 @@
 import { NgClass } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink, Router } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { ButtonComponent } from '../../components/button/button.component';
 import { InputComponent } from '../../components/input/input.component';
 import { ClickableTooltipDirective } from '../../helpers/directives/clickable-tooltip.directive';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MAT_DATE_LOCALE, DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '../../services/loading.service';
 
 @Component({
-  selector: 'app-new-checklist',
+  selector: 'app-edit-checklist',
   standalone: true,
-  imports: [
-    InputComponent,
-    ButtonComponent,
-    RouterLink,
-    ReactiveFormsModule,
-    NgClass,
-    NgxMaskDirective,
-    NgxMaskPipe,
-    MatTooltipModule,
-    MatIconModule,
-    ClickableTooltipDirective,
-    MatNativeDateModule,
-    MatDatepickerModule,
-    MatInputModule
-  ],
-  templateUrl: './new-checklist.component.html',
-  styleUrl: './new-checklist.component.scss',
+  imports: [InputComponent, ButtonComponent, RouterLink, ReactiveFormsModule, NgClass, NgxMaskDirective, NgxMaskPipe, MatTooltipModule, MatIconModule, ClickableTooltipDirective, MatNativeDateModule, MatDatepickerModule, MatInputModule],
+  templateUrl: './edit-checklist.component.html',
+  styleUrl: './edit-checklist.component.scss',
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
   ]
 })
-export class NewChecklistComponent implements OnInit {
+export class EditChecklistComponent {
   form: FormGroup;
   today: Date = new Date();
 
@@ -70,7 +56,7 @@ export class NewChecklistComponent implements OnInit {
 
     console.log(this.form.getRawValue());
 
-    this.toastr.success('Nova Checklist criada com sucesso.');
+    this.toastr.success('Checklist editada com sucesso!');
   }
 
   resetCheckboxes() {
