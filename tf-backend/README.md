@@ -13,7 +13,7 @@ Backend em Python/FastAPI com Firebase para o aplicativo TodoList.
 ### 1. Criar projeto no Firebase
 
 1. Acesse o [Console do Firebase](https://console.firebase.google.com/)
-2. Crie um novo projeto ou use o existente (`todopython-afbaa`)
+2. Crie um novo projeto ou use o existente (`project-tafeito`)
 3. Ative o Firestore Database
 4. Configure as regras de segurança do Firestore (inicialmente em modo de teste)
 
@@ -32,7 +32,7 @@ Backend em Python/FastAPI com Firebase para o aplicativo TodoList.
 ```json
 {
   "type": "service_account",
-  "project_id": "todopython-afbaa",
+  "project_id": "project-tafeito",
   "private_key_id": "...",
   "private_key": "...",
   "client_email": "...",

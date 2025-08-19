@@ -29,14 +29,19 @@
 
       <div class="tf-form-field">
         <label for="limitDate">Prazo (Opcional)</label>
-        <input matInput tfInput id="limitDate" placeholder="DD/MM/AAAA" type="text" formControlName="limitDate" readonly="true" [matDatepicker]="dpLimit" [min]="today" (click)="dpLimit.open()" />
+        <input matInput tfInput id="limitDate" placeholder="DD/MM/AAAA" type="text" formControlName="limitDate" readonly="true" [matDatepicker]="dpLimit" [min]="today" (click)="dpLimit.open()"
+        [class]="{
+          'tf-input-invalid': form.get('limitDate')?.invalid && form.get('limitDate')?.touched,
+          'tf-input-valid': form.get('limitDate')?.valid && form.get('limitDate')?.touched
+        }"
+        />
         <mat-datepicker #dpLimit></mat-datepicker>
         <p>*Campo obrigatório</p>
       </div>
 
       <div class="checkboxes-container">
         <div>
-          <input tfInput id="changeColorByDate" type="checkbox" formControlName="changeColorByDate" class="checkbox" />
+          <input tfInput id="changeColorByDate" type="checkbox" formControlName="changeColorByDate" class="checkbox" (change)="changeLimitDateValidation($event)" />
           <label for="changeColorByDate">Ativar coloração por prazo</label>
           <mat-icon
           clickableTooltip

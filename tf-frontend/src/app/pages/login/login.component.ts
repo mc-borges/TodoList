@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ForgotPasswordComponent } from '../../components/forgot-password-modal/forgot-password-modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '../../services/loading.service';
+import { AuthService } from '../../services/auth.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'tf-login',
@@ -21,7 +23,7 @@ import { LoadingService } from '../../services/loading.service';
 export class LoginComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private modal:MatDialog, private toastr: ToastrService, private loading: LoadingService) {
+  constructor(private fb: FormBuilder, private router: Router, private modal:MatDialog, private toastr: ToastrService, private loading: LoadingService, private auth: AuthService) {
     this.form = this.fb.group({
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6), CustomPasswordValidator]],
@@ -30,17 +32,30 @@ export class LoginComponent {
 
   login() {
     this.form.markAllAsTouched();
+
     if (this.form.invalid) {
       this.toastr.error('É necessário preencher todos os campos.');
 
       return;
     }
 
-    this.router.navigate(['confirm-email']);
+    this.loading.on();
 
-    console.log(this.form.getRawValue());
+    this.auth.login(this.form.getRawValue()).pipe(finalize(() => this.loading.off())).subscribe({
+      next: (data) => {
+        this.toastr.success('Login realizado.');
 
-    this.toastr.success('Login realizado.');
+        this.router.navigate(['home']);
+      },
+      error: (e) => {
+        this.toastr.error(e.error.detail);
+
+        console.error(e);
+
+        this.form.reset();
+        this.form.markAllAsTouched();
+      },
+    });
   }
 
   openForgotPasswordModal() {

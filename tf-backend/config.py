@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     debug: bool = True
     
     # Firebase configuration
-    firebase_project_id: str = "todopython-afbaa"
+    firebase_project_id: str = "project-tafeito"
     firebase_credentials_path: str = "firebase-credentials.json"
     
     # CORS settings

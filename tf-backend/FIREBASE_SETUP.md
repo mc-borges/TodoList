@@ -4,7 +4,7 @@
 
 ### Passo 1: Ativar o Firestore
 1. Acesse o [Console do Firebase](https://console.firebase.google.com/)
-2. Selecione seu projeto `todopython-afbaa`
+2. Selecione seu projeto `project-tafeito`
 3. No menu lateral, clique em **Firestore Database**
 4. Clique em **Criar banco de dados**
 5. Escolha **Iniciar no modo de teste** (importante para desenvolvimento)
@@ -42,15 +42,15 @@ O arquivo deve ter esta estrutura (com seus dados reais):
 ```json
 {
   "type": "service_account",
-  "project_id": "todopython-afbaa",
+  "project_id": "project-tafeito",
   "private_key_id": "abc123...",
   "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQ...\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-xxxxx@todopython-afbaa.iam.gserviceaccount.com",
+  "client_email": "firebase-adminsdk-xxxxx@project-tafeito.iam.gserviceaccount.com",
   "client_id": "123456789...",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs/firebase-adminsdk-xxxxx%40todopython-afbaa.iam.gserviceaccount.com",
+  "client_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs/firebase-adminsdk-xxxxx%40project-tafeito.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com"
 }
 ```
@@ -65,9 +65,9 @@ export const environment = {
   production: false,
   firebaseConfig: {
     apiKey: "AIzaSyD0fXSKBKcmjZQytkA3h9A9sxbr0AB55Ig",
-    authDomain: "todopython-afbaa.firebaseapp.com",
-    projectId: "todopython-afbaa",
-    storageBucket: "todopython-afbaa.firebasestorage.app",
+    authDomain: "project-tafeito.firebaseapp.com",
+    projectId: "project-tafeito",
+    storageBucket: "project-tafeito.firebasestorage.app",
     messagingSenderId: "497243391028",
     appId: "1:497243391028:web:c4d6b90e00d8eb467db661",
     measurementId: "G-BT1QN0J70Q"

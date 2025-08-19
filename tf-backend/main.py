@@ -97,7 +97,7 @@ async def signup(user: UserCreate):
     if len(list(existing_user.stream())) > 0:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
+            detail="Este e-mail já existe."
         )
     
     # Create new user
@@ -140,7 +140,7 @@ async def login(user_credentials: UserLogin):
     if not users:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password"
+            detail="E-mail e/ou senha incorreta."
         )
     
     user_doc = users[0]
@@ -150,7 +150,7 @@ async def login(user_credentials: UserLogin):
     if not verify_password(user_credentials.password, user_data['password']):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password"
+            detail="E-mail e/ou senha incorreta."
         )
     
     # Create access token
