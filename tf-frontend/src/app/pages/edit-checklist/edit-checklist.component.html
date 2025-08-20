@@ -1,11 +1,11 @@
-<img src="/images/icon_arrow_left.svg" alt="Seta para esquerda" [routerLink]="['/home']" class="return-arrow">
+<img src="/images/icon_arrow_left.svg" alt="Seta para esquerda" (click)="cancelEdit(true)" class="return-arrow">
 
 <h4>Editar Checklist</h4>
 
 <div class="main-container">
   <img src="/images/img_man_checking_list.png" alt="Figura de um homem marcando uma lista">
 
-  <form [formGroup]="form" (ngSubmit)="createChecklist()">
+  <form [formGroup]="form" (ngSubmit)="editChecklist()">
     <div class="inputs-container">
       <div class="tf-form-field">
         <label for="name">Nome*</label>
@@ -58,8 +58,8 @@
     </div>
 
     <div class="buttons-redirect-container">
-      <button tfButton color="primary" type="submit">Criar checklist</button>
-      <button tfButton color="secondary" type="button" (click)="resetCheckboxes()">Limpar dados</button>
+      <button tfButton color="primary" type="submit">Salvar checklist</button>
+      <button tfButton color="secondary" type="button" (click)="cancelEdit()">Cancelar</button>
     </div>
   </form>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { InputComponent } from '../../components/input/input.component';
 import { ButtonComponent } from '../../components/button/button.component';
 import { Router, RouterLink } from '@angular/router';
@@ -6,8 +6,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgClass } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { CustomPasswordValidator } from '../../helpers/validators/custom-password.validator';
-import { MatDialog } from '@angular/material/dialog';
-import { ForgotPasswordComponent } from '../../components/forgot-password-modal/forgot-password-modal.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from '../../components/confirmation-modal/confirmation-modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '../../services/loading.service';
 import { AuthService } from '../../services/auth.service';
@@ -59,8 +59,19 @@ export class LoginComponent {
   }
 
   openForgotPasswordModal() {
-    this.modal.open(ForgotPasswordComponent, {
+    const dialogRef = this.modal.open(ConfirmationModalComponent, {
       width: '695px',
+      data: {
+        title: 'Esqueceu a senha?',
+        message: 'Poderíamos te dar um sermão, mas decidimos te enviar um e-mail com instruções para redefinir sua senha :)',
+        buttonText: 'Combinado',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.router.navigate(['redefine-password']);
+      }
     });
   }
 }

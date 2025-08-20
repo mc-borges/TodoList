@@ -1,0 +1,82 @@
+.card-container {
+  display: flex;
+  min-width: 320px;
+  height: 300px;
+  padding: 32px;
+  gap: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.column-colored {
+  width: 16px;
+  height: 100%;
+}
+
+.status-red {
+  background-color: #FF0000;
+}
+
+.status-green {
+  background-color: #30B43C;
+}
+
+.status-yellow {
+  background-color: #FFC107;
+}
+
+.content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  h4 {
+    text-align: center;
+  }
+  span {
+    display: flex;
+    justify-content: end;
+    font-size: 18px;
+  }
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  p {
+    text-align: center;
+  }
+  .task-counter {
+    color: rgba(0, 0, 0, 0.25);
+  }
+}
+
+.icons-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-new:hover {
+  filter: brightness(0) saturate(100%) invert(51%) sepia(20%) saturate(3560%) hue-rotate(87deg) brightness(105%) contrast(66%);
+}
+
+.icon-edit:hover {
+  filter: brightness(0) saturate(100%) invert(64%) sepia(63%) saturate(828%) hue-rotate(183deg) brightness(99%) contrast(105%);
+}
+
+.icon-delete:hover {
+  filter: brightness(0) saturate(100%) invert(33%) sepia(99%) saturate(7140%) hue-rotate(358deg) brightness(99%) contrast(127%);
+}

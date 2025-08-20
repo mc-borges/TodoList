@@ -1,0 +1,13 @@
+<div class="texts-container">
+  <h4>{{ data.title }}</h4>
+
+  <p>{{ data.message }}</p>
+</div>
+
+<div class="buttons-container">
+  <button tfButton [color]="data.primaryButtonColor ? data.primaryButtonColor : 'primary'" (click)="onButtonClick('Clicked Primary')">{{ data.buttonText }}</button>
+
+  @if (data?.hasSecondaryButton) {
+    <button tfButton [color]="data.secondaryButtonColor ? data.secondaryButtonColor : 'secondary'" (click)="onButtonClick('Clicked Secondary')">{{ data.secondaryButtonText }}</button>
+  }
+</div>

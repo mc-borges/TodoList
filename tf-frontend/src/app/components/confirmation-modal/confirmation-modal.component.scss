@@ -6,10 +6,17 @@
   padding: 32px 36px;
 }
 
-div {
+.texts-container, .buttons-container {
   display: flex;
   flex-direction: column;
+}
+
+.texts-container {
   gap: 24px;
+}
+
+.buttons-container {
+  gap: 16px;
 }
 
 p {

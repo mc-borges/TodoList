@@ -1,0 +1,27 @@
+<div class="card-container" [style]="{'border': '1px solid ' + statusColor}">
+  <div class="column-colored" [style]="{'background-color': statusColor}"></div>
+
+  <div class="content-container">
+    <div class="info-container">
+      <span>{{ data.category }}</span>
+
+      <div>
+        <h4>{{ data.name }}</h4>
+        <p>{{  data.description }}</p>
+        <p class="task-counter">
+          @if (data.items && data.items.length > 0) {
+            0 de {{ data.items.length }} tarefa(s) concluída(s).
+          } @else {
+            Adicione uma tarefa!
+          }
+        </p>
+      </div>
+    </div>
+
+    <div class="icons-container">
+      <img src="/images/icon_plus.svg" alt="" class="icon icon-new">
+      <img src="/images/icon_pencil.svg" alt="" class="icon icon-edit" [routerLink]="['/edit-checklist', data.id]">
+      <img src="/images/icon_bin.svg" alt="" class="icon icon-delete" (click)="deleteChecklist(data.id)">
+    </div>
+  </div>
+</div>

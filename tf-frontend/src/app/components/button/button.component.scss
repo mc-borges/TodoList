@@ -36,3 +36,16 @@
   background: rgba(19, 107, 43, 0.05);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
+
+:host(.tertiary) {
+  background: #fff;
+  color: #DC3545;
+  border: 1px solid #DC3545;
+}
+
+:host(.tertiary):hover {
+  border: none;
+  color: #fff;
+  background: #DC3545;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}

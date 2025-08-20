@@ -20,3 +20,10 @@ border: 1px solid #30B43C;
   outline:1px solid #30B43C;
   box-shadow: none;
 }
+
+:host[type='search'] {
+  padding-left: 40px;
+  background: url("/images/icon_search.svg") no-repeat 8px center;
+  background-size: 20px;
+  font-size: 16px;
+}

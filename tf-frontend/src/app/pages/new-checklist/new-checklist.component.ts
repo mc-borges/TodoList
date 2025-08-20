@@ -55,7 +55,7 @@ export class NewChecklistComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
   }
