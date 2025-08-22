@@ -11,9 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signup(data: UserSignup) {
-    return this.http.post<any>(`${this.apiUrl}/auth/signup`, data).pipe(
-      tap(res => this.setToken(res.access_token))
-    );
+    return this.http.post<any>(`${this.apiUrl}/auth/signup`, data);
   }
 
   login(data: UserLogin) {

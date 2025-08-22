@@ -9,3 +9,11 @@ export type UserLogin = {
   email: string;
   password: string;
 };
+
+export type UserResponse = {
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  emailVerified?: boolean;
+};

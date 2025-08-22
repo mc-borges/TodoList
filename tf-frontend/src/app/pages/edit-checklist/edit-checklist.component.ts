@@ -55,10 +55,6 @@ export class EditChecklistComponent implements OnInit {
       },
       error: (e) => {
         console.error(e);
-
-        this.toastr.error('Algo deu errado. Tente novamente mais tarde.');
-
-        this.router.navigate(['home']);
       },
     });
 

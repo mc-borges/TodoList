@@ -30,4 +30,8 @@ export class ChecklistService {
   deleteChecklist(id: string) {
     return this.http.delete(`${this.apiUrl}/checklists/${id}`);
   }
+
+  addTasksInChecklist(id: string, data: any[]) {
+    return this.http.post<any>(`${this.apiUrl}/checklists/${id}/items`, data);
+  }
 }

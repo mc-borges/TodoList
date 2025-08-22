@@ -1,0 +1,46 @@
+<img src="/images/icon_arrow_left.svg" alt="Seta para esquerda" (click)="cancel()" class="return-arrow">
+
+<div class="title-container">
+  <h4>{{ checklist?.name }}</h4>
+
+  <span>{{ checklist?.description }}</span>
+</div>
+
+<form (ngSubmit)="addTasksInChecklist()" [formGroup]="formGroup">
+  <div class="tasks-container">
+    <p>Adicione tarefas na checklist</p>
+
+    <div cdkDropList (cdkDropListDropped)="drop($event)" formArrayName="form">
+      @for (item of items; track item) {
+        <div [formGroupName]="$index" cdkDrag cdkDragLockAxis="y" class="task-item-container">
+          <div class="input-inner input-inner-left">
+            <mat-icon title="Arrastar" cdkDragHandle>drag_indicator</mat-icon>
+            <input tfInput type="checkbox" formControlName="completed">
+          </div>
+
+          @if (item.get('title')?.value?.trim() && item.get('title')?.touched && form.length > 1) {
+            <div class="input-inner input-inner-right">
+              <img src="/images/icon_pencil.svg" title="Editar" (click)="editItem($index)" />
+              <img src="/images/icon_bin_secondary.svg" title="Excluir" (click)="removeItem($index)" />
+            </div>
+          }
+
+          <input tfInput type="text" placeholder="Adicionar tarefa" formControlName="title"
+          [class]="{'input-filled': item.get('title')?.value?.trim(), 'tf-input-invalid': item.get('title')?.invalid && item.get('title')?.touched && saveItemsClicked}"
+          [id]="'task-' + $index">
+        </div>
+      }
+    </div>
+
+    <div class="add-item-container">
+      <button tfButton color="primary" type="button" (click)="addItem()" [disabled]="form.invalid">
+        <img src="/images/icon_plus.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <div class="buttons-container">
+    <button tfButton color="primary" type="submit">Salvar dados</button>
+    <button tfButton color="secondary" type="button" (click)="cancel()">Cancelar</button>
+  </div>
+</form>

@@ -27,3 +27,20 @@ border: 1px solid #30B43C;
   background-size: 20px;
   font-size: 16px;
 }
+
+:host[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  background: url("/images/icon_tfcheckbox_unchecked.svg") no-repeat center / contain;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 100%;
+}
+
+:host[type='checkbox']:checked {
+  background: url("/images/icon_tfcheckbox.svg") no-repeat center / contain;
+}

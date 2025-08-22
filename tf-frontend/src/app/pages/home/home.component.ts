@@ -40,6 +40,8 @@ export class HomeComponent implements OnInit {
   filterChecklists(event: Event) {
     const value = (event.target as HTMLInputElement).value;
 
+    this.loading.on();
+
     if (value) {
       this.filteredChecklists = this.checklists.filter((checklist) => {
         return checklist?.name?.toLowerCase().includes(value.toLowerCase()) ||
@@ -49,5 +51,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.filteredChecklists = this.checklists;
     }
+
+    this.loading.off();
   }
 }

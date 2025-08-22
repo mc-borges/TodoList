@@ -19,7 +19,7 @@
     </div>
 
     <div class="icons-container">
-      <img src="/images/icon_plus.svg" alt="" class="icon icon-new">
+      <img src="/images/icon_plus.svg" alt="" class="icon icon-new" [routerLink]="['/checklist-tasks', data.id]">
       <img src="/images/icon_pencil.svg" alt="" class="icon icon-edit" [routerLink]="['/edit-checklist', data.id]">
       <img src="/images/icon_bin.svg" alt="" class="icon icon-delete" (click)="deleteChecklist(data.id)">
     </div>

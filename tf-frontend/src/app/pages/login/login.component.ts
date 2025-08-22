@@ -6,8 +6,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgClass } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { CustomPasswordValidator } from '../../helpers/validators/custom-password.validator';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmationModalComponent } from '../../components/confirmation-modal/confirmation-modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '../../services/loading.service';
 import { AuthService } from '../../services/auth.service';
@@ -23,7 +21,7 @@ import { finalize } from 'rxjs';
 export class LoginComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private modal:MatDialog, private toastr: ToastrService, private loading: LoadingService, private auth: AuthService) {
+  constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private loading: LoadingService, private auth: AuthService) {
     this.form = this.fb.group({
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6), CustomPasswordValidator]],
@@ -55,23 +53,6 @@ export class LoginComponent {
         this.form.reset();
         this.form.markAllAsTouched();
       },
-    });
-  }
-
-  openForgotPasswordModal() {
-    const dialogRef = this.modal.open(ConfirmationModalComponent, {
-      width: '695px',
-      data: {
-        title: 'Esqueceu a senha?',
-        message: 'Poderíamos te dar um sermão, mas decidimos te enviar um e-mail com instruções para redefinir sua senha :)',
-        buttonText: 'Combinado',
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.router.navigate(['redefine-password']);
-      }
     });
   }
 }

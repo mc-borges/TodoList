@@ -71,35 +71,12 @@ form {
   .checkboxes-container {
     display: flex;
     flex-direction: column;
+    div {
+      display: flex;
+      align-items: center;
+    }
     gap: 16px;
   }
-}
-
-.checkbox {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.checkbox + label {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
-
-.checkbox + label::before {
-  content: "";
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  background: url("/images/icon_tfcheckbox_unchecked.svg") no-repeat center / contain;
-}
-
-#changeColorByDate:checked + label::before,
-#showMotivationalMsg:checked + label::before {
-  background: url("/images/icon_tfcheckbox.svg") no-repeat center / contain;
 }
 
 mat-icon {

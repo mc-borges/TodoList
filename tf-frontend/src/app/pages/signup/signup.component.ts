@@ -51,7 +51,7 @@ export class SignupComponent {
       next: (data) => {
         this.toastr.success('Cadastro realizado.');
 
-        this.router.navigate(['confirm-email']);
+        this.router.navigate(['login']);
       },
       error: (e) => {
         this.toastr.error(e.error.detail);
