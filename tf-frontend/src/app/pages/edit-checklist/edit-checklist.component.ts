@@ -71,7 +71,15 @@ export class EditChecklistComponent implements OnInit {
     this.form.get('changeColorByDate')?.setValue(data.change_color_by_date);
     this.form.get('showMotivationalMsg')?.setValue(data.show_motivational_msg);
 
-    this.checklist = this.form.getRawValue();
+    // Salvar uma cópia dos dados originais para comparação
+    this.checklist = {
+      name: data.name,
+      category: data.category,
+      description: data.description,
+      limit_date: data.limit_date,
+      change_color_by_date: data.change_color_by_date,
+      show_motivational_msg: data.show_motivational_msg
+    } as any;
   }
 
   editChecklist() {
@@ -99,13 +107,25 @@ export class EditChecklistComponent implements OnInit {
     });
   }
 
-  cancelEdit(isArrowButton: boolean = false) {
-    if (isArrowButton && JSON.stringify(this.form.getRawValue()) === JSON.stringify(this.checklist)) {
-      this.router.navigate(['home']);
+  // Método simples para voltar - sempre funciona
+  goBack() {
+    console.log('goBack chamado');
+    this.router.navigate(['home']);
+    return;
+  }
 
+  cancelEdit(isArrowButton: boolean = false) {
+    console.log('cancelEdit chamado, isArrowButton:', isArrowButton);
+    
+    // VERSÃO SIMPLIFICADA PARA TESTE
+    if (isArrowButton) {
+      console.log('Botão de seta clicado - navegando diretamente');
+      this.router.navigate(['home']);
       return;
     }
 
+    // Se há mudanças ou é o botão cancelar, mostrar modal de confirmação
+    console.log('Mostrando modal de confirmação');
     const dialogRef = this.modal.open(ConfirmationModalComponent, {
       width: '695px',
       data: {
@@ -118,9 +138,23 @@ export class EditChecklistComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
+      console.log('Modal fechado com resultado:', res);
       if (res === 'Clicked Secondary') {
+        console.log('Navegando para home após descartar');
         this.router.navigate(['home']);
       }
     });
+  }
+
+  private hasDateChanged(currentDate: Date | null, originalDate: string | null): boolean {
+    // Se ambos são null/undefined, não houve mudança
+    if (!currentDate && !originalDate) return false;
+    
+    // Se um é null e outro não, houve mudança
+    if (!currentDate || !originalDate) return true;
+    
+    // Comparar as datas
+    const originalDateObj = new Date(originalDate);
+    return currentDate.getTime() !== originalDateObj.getTime();
   }
 }

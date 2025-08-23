@@ -18,7 +18,7 @@
             <input tfInput type="checkbox" formControlName="completed">
           </div>
 
-          @if (item.get('title')?.value?.trim() && item.get('title')?.touched && form.length > 1) {
+          @if (item.get('title')?.value?.trim() && form.length > 1) {
             <div class="input-inner input-inner-right">
               <img src="/images/icon_pencil.svg" title="Editar" (click)="editItem($index)" />
               <img src="/images/icon_bin_secondary.svg" title="Excluir" (click)="removeItem($index)" />
