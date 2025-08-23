@@ -66,7 +66,8 @@ export class EditChecklistComponent implements OnInit {
     this.form.get('name')?.setValue(data.name);
     this.form.get('category')?.setValue(data.category);
     this.form.get('description')?.setValue(data.description);
-    this.form.get('limitDate')?.setValue(data.limit_date);
+    // Convert ISO string back to Date object for the date picker
+    this.form.get('limitDate')?.setValue(data.limit_date ? new Date(data.limit_date) : null);
     this.form.get('changeColorByDate')?.setValue(data.change_color_by_date);
     this.form.get('showMotivationalMsg')?.setValue(data.show_motivational_msg);
 

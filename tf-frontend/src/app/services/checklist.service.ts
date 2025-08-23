@@ -12,7 +12,16 @@ export class ChecklistService {
   constructor(private http: HttpClient) {}
 
   createChecklist(data: ChecklistData) {
-    return this.http.post<ChecklistDataResponse>(`${this.apiUrl}/checklists`, data);
+    // Transform camelCase to snake_case for backend
+    const backendData = {
+      name: data.name,
+      category: data.category,
+      description: data.description,
+      limit_date: data.limitDate,
+      change_color_by_date: data.changeColorByDate,
+      show_motivational_msg: data.showMotivationalMsg
+    };
+    return this.http.post<ChecklistDataResponse>(`${this.apiUrl}/checklists`, backendData);
   }
 
   getChecklists() {
@@ -24,7 +33,16 @@ export class ChecklistService {
   }
 
   updateChecklist(id: string, data: ChecklistData) {
-    return this.http.put<ChecklistDataResponse>(`${this.apiUrl}/checklists/${id}`, data);
+    // Transform camelCase to snake_case for backend
+    const backendData = {
+      name: data.name,
+      category: data.category,
+      description: data.description,
+      limit_date: data.limitDate,
+      change_color_by_date: data.changeColorByDate,
+      show_motivational_msg: data.showMotivationalMsg
+    };
+    return this.http.put<ChecklistDataResponse>(`${this.apiUrl}/checklists/${id}`, backendData);
   }
 
   deleteChecklist(id: string) {
