@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ChecklistService } from '../../services/checklist.service';
-import { ChecklistDataResponse } from '../../helpers/types/checklist.type';
+import { ChecklistDataResponse, ChecklistItem } from '../../helpers/types/checklist.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from '../../services/loading.service';
 import { ToastrService } from 'ngx-toastr';
@@ -38,10 +38,12 @@ export class ChecklistTasksComponent {
     return this.form.controls as FormGroup[];
   }
 
-  private createTask(): FormGroup {
+  private createTask(item?: ChecklistItem): FormGroup {
     return this.fb.group({
-      title: ['', [Validators.required]],
-      completed: [false],
+      id: [item?.id || null],
+      title: [item?.title || '', [Validators.required]],
+      description: [item?.description || ''],
+      completed: [item?.completed || false],
     });
   }
 
@@ -73,9 +75,23 @@ export class ChecklistTasksComponent {
     this.checkService.getChecklistById(this.listId!).pipe(finalize(() => this.loading.off())).subscribe({
       next: (res) => {
         this.checklist = res;
+        
+        // Limpar o FormArray atual
+        this.form.clear();
+        
+        // Se há itens existentes, carregar no formulário
+        if (res.items && res.items.length > 0) {
+          res.items.forEach(item => {
+            this.form.push(this.createTask(item));
+          });
+        } else {
+          // Se não há itens, adicionar um campo vazio
+          this.form.push(this.createTask());
+        }
       },
       error: (e) => {
         console.error(e);
+        this.toastr.error('Erro ao carregar checklist');
       },
     });
   }
@@ -99,7 +115,44 @@ export class ChecklistTasksComponent {
       return;
     }
 
-    this.router.navigate(['home']);
+    // Preparar dados para o novo endpoint otimizado
+    const items: ChecklistItem[] = this.form.value.map((formItem: any) => ({
+      id: formItem.id || null,
+      title: formItem.title,
+      description: formItem.description || null,
+      completed: formItem.completed
+    }));
+
+    // Filtrar itens com título vazio (caso o usuário tenha removido o conteúdo)
+    const validItems = items.filter(item => item.title && item.title.trim().length > 0);
+
+    this.loading.on();
+
+    // Usar o novo endpoint otimizado
+    this.checkService.updateChecklistItems(this.listId!, { items: validItems })
+      .pipe(finalize(() => this.loading.off()))
+      .subscribe({
+        next: (response) => {
+          console.log('Resposta do servidor:', response);
+          
+          // Mostrar estatísticas da operação
+          const stats = [];
+          if (response.created_count > 0) stats.push(`${response.created_count} criadas`);
+          if (response.updated_count > 0) stats.push(`${response.updated_count} atualizadas`);
+          if (response.deleted_count > 0) stats.push(`${response.deleted_count} removidas`);
+          
+          const message = stats.length > 0 
+            ? `Tarefas salvas! (${stats.join(', ')})`
+            : 'Tarefas salvas com sucesso!';
+          
+          this.toastr.success(message);
+          this.router.navigate(['home']);
+        },
+        error: (e) => {
+          console.error('Erro ao salvar tarefas:', e);
+          this.toastr.error('Erro ao salvar tarefas. Tente novamente.');
+        }
+      });
   }
 
   cancel() {

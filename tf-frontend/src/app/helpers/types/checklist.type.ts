@@ -7,6 +7,25 @@ export type ChecklistData = {
   showMotivationalMsg?: boolean,
 };
 
+export type ChecklistItem = {
+  id?: string | null,
+  title: string,
+  description?: string | null,
+  completed: boolean,
+};
+
+export type ChecklistItemsBulkUpdate = {
+  items: ChecklistItem[]
+};
+
+export type ChecklistItemsBulkResponse = {
+  message: string,
+  items: ChecklistItem[],
+  created_count: number,
+  updated_count: number,
+  deleted_count: number
+};
+
 export type ChecklistDataResponse = {
   id: string,
   name: string | null,
@@ -15,5 +34,5 @@ export type ChecklistDataResponse = {
   limit_date: any,
   change_color_by_date: boolean,
   show_motivational_msg: boolean,
-  items?: any[],
+  items?: ChecklistItem[],
 };

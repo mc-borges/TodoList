@@ -9,8 +9,8 @@
         <h4>{{ data.name }}</h4>
         <p>{{  data.description }}</p>
         <p class="task-counter">
-          @if (data.items && data.items.length > 0) {
-            0 de {{ data.items.length }} tarefa(s) concluída(s).
+          @if (totalTasksCount > 0) {
+            {{ completedTasksCount }} de {{ totalTasksCount }} tarefa(s) concluída(s).
           } @else {
             Adicione uma tarefa!
           }

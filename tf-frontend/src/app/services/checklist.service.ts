@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ChecklistData, ChecklistDataResponse } from '../helpers/types/checklist.type';
+import { ChecklistData, ChecklistDataResponse, ChecklistItemsBulkUpdate, ChecklistItemsBulkResponse } from '../helpers/types/checklist.type';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +49,11 @@ export class ChecklistService {
     return this.http.delete(`${this.apiUrl}/checklists/${id}`);
   }
 
-  addTasksInChecklist(id: string, data: any[]) {
-    return this.http.post<any>(`${this.apiUrl}/checklists/${id}/items`, data);
+  // NOVO MÉTODO OTIMIZADO: Atualiza todos os itens da checklist em lote
+  updateChecklistItems(checklistId: string, data: ChecklistItemsBulkUpdate) {
+    return this.http.put<ChecklistItemsBulkResponse>(`${this.apiUrl}/checklists/${checklistId}/items`, data);
   }
+
+  // MÉTODO LEGADO (removido): addTasksInChecklist
+  // Substituído por updateChecklistItems para operações em lote
 }

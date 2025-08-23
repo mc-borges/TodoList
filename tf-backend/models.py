@@ -39,6 +39,15 @@ class ChecklistItemBase(BaseModel):
 class ChecklistItemCreate(ChecklistItemBase):
     pass
 
+class ChecklistItemUpdate(BaseModel):
+    id: Optional[str] = None  # None for new items
+    title: str
+    completed: bool = False
+    description: Optional[str] = None
+
+class ChecklistItemsBulkUpdate(BaseModel):
+    items: List[ChecklistItemUpdate]
+
 class ChecklistItem(ChecklistItemBase):
     id: str
     checklist_id: str
