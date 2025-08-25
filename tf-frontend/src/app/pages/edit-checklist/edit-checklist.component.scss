@@ -10,9 +10,17 @@
   cursor: pointer;
   transition: 0.3s;
   border-radius: 100%;
+  z-index: 999;
+  pointer-events: auto;
+  user-select: none;
+
   &:hover {
     filter: brightness(0) saturate(100%) invert(28%) sepia(11%) saturate(6050%) hue-rotate(100deg) brightness(95%) contrast(85%);
     background-color: #00000040;
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 }
 

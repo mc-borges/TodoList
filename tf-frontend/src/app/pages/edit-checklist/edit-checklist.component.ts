@@ -40,9 +40,9 @@ export class EditChecklistComponent implements OnInit {
       name: [null, Validators.required],
       category: [null],
       description: [null],
-      limitDate: [null],
-      changeColorByDate: [false],
-      showMotivationalMsg: [false],
+      limit_date: [null],
+      change_color_by_date: [false],
+      show_motivational_msg: [false],
     });
   }
 
@@ -66,9 +66,9 @@ export class EditChecklistComponent implements OnInit {
     this.form.get('name')?.setValue(data.name);
     this.form.get('category')?.setValue(data.category);
     this.form.get('description')?.setValue(data.description);
-    this.form.get('limitDate')?.setValue(data.limit_date);
-    this.form.get('changeColorByDate')?.setValue(data.change_color_by_date);
-    this.form.get('showMotivationalMsg')?.setValue(data.show_motivational_msg);
+    this.form.get('limit_date')?.setValue(data.limit_date ? new Date(data.limit_date) : null);
+    this.form.get('change_color_by_date')?.setValue(data.change_color_by_date);
+    this.form.get('show_motivational_msg')?.setValue(data.show_motivational_msg);
 
     this.checklist = this.form.getRawValue();
   }

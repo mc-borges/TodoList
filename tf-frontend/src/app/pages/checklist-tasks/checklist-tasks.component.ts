@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ChecklistService } from '../../services/checklist.service';
-import { ChecklistDataResponse } from '../../helpers/types/checklist.type';
+import { ChecklistDataResponse, ChecklistItem } from '../../helpers/types/checklist.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from '../../services/loading.service';
 import { ToastrService } from 'ngx-toastr';
@@ -23,6 +23,7 @@ export class ChecklistTasksComponent {
   listId!: string | null;
   checklist!: ChecklistDataResponse;
   saveItemsClicked: boolean = false;
+  motivMessage: any;
 
   constructor(private cdRef: ChangeDetectorRef, private fb: FormBuilder, private checkService: ChecklistService, private activatedroute: ActivatedRoute, private loading: LoadingService, private toastr: ToastrService, private router: Router) {
     this.formGroup = this.fb.group({
@@ -38,10 +39,22 @@ export class ChecklistTasksComponent {
     return this.form.controls as FormGroup[];
   }
 
-  private createTask(): FormGroup {
+  get isAllCompleted() {
+    return this.form.getRawValue().every((item: any) => item.completed === true);
+  }
+
+  get hasAnyValue() {
+    const form = this.form.getRawValue();
+
+    return form.length < 2 && form[0].title.trim().length == 0;
+  }
+
+  private createTask(item?: ChecklistItem): FormGroup {
     return this.fb.group({
-      title: ['', [Validators.required]],
-      completed: [false],
+      id: [item?.id || null],
+      title: [item?.title || '', [Validators.required]],
+      description: [item?.description || ''],
+      completed: [item?.completed || false],
     });
   }
 
@@ -54,7 +67,7 @@ export class ChecklistTasksComponent {
   }
 
   editItem(index: number): void {
-
+    document.getElementById('task-' + index)?.focus();
   }
 
   removeItem(index: number): void {
@@ -73,9 +86,25 @@ export class ChecklistTasksComponent {
     this.checkService.getChecklistById(this.listId!).pipe(finalize(() => this.loading.off())).subscribe({
       next: (res) => {
         this.checklist = res;
+
+        this.form.clear();
+
+        if (res.items && res.items.length > 0) {
+          res.items.forEach(item => {
+            this.form.push(this.createTask(item));
+          });
+        } else {
+          this.form.push(this.createTask());
+        }
+
+        if (res.show_motivational_msg) {
+          this.getRandomMessage();
+        }
       },
       error: (e) => {
         console.error(e);
+
+        this.toastr.error('Erro ao carregar checklist');
       },
     });
   }
@@ -99,12 +128,57 @@ export class ChecklistTasksComponent {
       return;
     }
 
-    this.router.navigate(['home']);
+    const items: ChecklistItem[] = this.form.value.map((formItem: any) => ({
+      id: formItem.id || null,
+      title: formItem.title,
+      description: formItem.description || null,
+      completed: formItem.completed
+    }));
+
+    const validItems = items.filter(item => item.title && item.title.trim().length > 0);
+
+    this.loading.on();
+
+    this.checkService.updateChecklistItems(this.listId!, { items: validItems })
+    .pipe(finalize(() => this.loading.off()))
+    .subscribe({
+      next: (response) => {
+        const stats = [];
+
+        if (response.created_count > 0) stats.push(`${response.created_count} criadas`);
+        if (response.updated_count > 0) stats.push(`${response.updated_count} atualizadas`);
+        if (response.deleted_count > 0) stats.push(`${response.deleted_count} removidas`);
+
+        const message = stats.length > 0
+          ? `Tarefas salvas! (${stats.join(', ')})`
+          : 'Tarefas salvas com sucesso!';
+
+        this.toastr.success(message);
+
+        this.router.navigate(['home']);
+      },
+      error: (e) => {
+        console.error('Erro ao salvar tarefas:', e);
+        this.toastr.error('Erro ao salvar tarefas. Tente novamente.');
+      }
+    });
   }
 
   cancel() {
     this.router.navigate(['home']);
 
     return;
+  }
+
+  getRandomMessage() {
+    this.checkService.getRandomMessage().subscribe({
+      next: (res) => {
+        const randomIndex = Math.floor(Math.random() * res.length);
+        this.motivMessage = res[randomIndex];
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
   }
 }

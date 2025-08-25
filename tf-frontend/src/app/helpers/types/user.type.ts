@@ -14,6 +14,5 @@ export type UserResponse = {
   id: string;
   email: string;
   name: string;
-  phone: string;
-  emailVerified?: boolean;
+  phone: string | number;
 };

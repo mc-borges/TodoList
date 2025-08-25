@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ChecklistData, ChecklistDataResponse } from '../helpers/types/checklist.type';
+import { ChecklistDataResponse, ChecklistItemsBulkUpdate, ChecklistItemsBulkResponse } from '../helpers/types/checklist.type';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class ChecklistService {
 
   constructor(private http: HttpClient) {}
 
-  createChecklist(data: ChecklistData) {
+  createChecklist(data: ChecklistDataResponse) {
     return this.http.post<ChecklistDataResponse>(`${this.apiUrl}/checklists`, data);
   }
 
@@ -23,7 +23,7 @@ export class ChecklistService {
     return this.http.get<ChecklistDataResponse>(`${this.apiUrl}/checklists/${id}`);
   }
 
-  updateChecklist(id: string, data: ChecklistData) {
+  updateChecklist(id: string, data: ChecklistDataResponse) {
     return this.http.put<ChecklistDataResponse>(`${this.apiUrl}/checklists/${id}`, data);
   }
 
@@ -31,7 +31,11 @@ export class ChecklistService {
     return this.http.delete(`${this.apiUrl}/checklists/${id}`);
   }
 
-  addTasksInChecklist(id: string, data: any[]) {
-    return this.http.post<any>(`${this.apiUrl}/checklists/${id}/items`, data);
+  updateChecklistItems(checklistId: string, data: ChecklistItemsBulkUpdate) {
+    return this.http.put<ChecklistItemsBulkResponse>(`${this.apiUrl}/checklists/${checklistId}/items`, data);
+  }
+
+  getRandomMessage() {
+    return this.http.get<any[]>('json/frases.json');
   }
 }

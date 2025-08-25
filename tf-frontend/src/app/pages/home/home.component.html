@@ -25,7 +25,7 @@
       </div>
 
       <div class="checklists-container">
-        @for (checklist of filteredChecklists; track $index) {
+        @for (checklist of filteredChecklists; track checklist) {
           <tf-checklist-card [data]="checklist" (hasUpdatedChecklists)="getChecklists()" />
         }
       </div>

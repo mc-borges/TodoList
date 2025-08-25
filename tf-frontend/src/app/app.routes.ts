@@ -47,6 +47,22 @@ export const routes: Routes = [
     title: 'Tá Feito - Editar Checklist'
   },
   {
+    path: 'account',
+    loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent),
+    canActivate: [AuthGuard],
+    title: 'Tá Feito - Minha Conta'
+  },
+  {
+    path: 'about-us',
+    loadComponent: () => import('./pages/about-us/about-us.component').then(m => m.AboutUsComponent),
+    title: 'Tá Feito - Sobre Nós'
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent),
+    title: 'Tá Feito - Contato'
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full',

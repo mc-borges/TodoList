@@ -1,0 +1,5 @@
+@if (user) {
+  <h2>{{  user.name }}</h2>
+  <h2>{{  user.email }}</h2>
+  <h2>{{  user.phone | mask: '(00) 00000-0000'}}</h2>
+}
