@@ -28,11 +28,11 @@
       </div>
 
       <div class="tf-form-field">
-        <label for="limitDate">Prazo (Opcional)</label>
-        <input matInput tfInput id="limitDate" placeholder="DD/MM/AAAA" type="text" formControlName="limitDate" readonly="true" [matDatepicker]="dpLimit" [min]="today" (click)="dpLimit.open()"
+        <label for="limit_date">Prazo (Opcional)</label>
+        <input matInput tfInput id="limit_date" placeholder="DD/MM/AAAA" type="text" formControlName="limit_date" readonly="true" [matDatepicker]="dpLimit" [min]="today" (click)="dpLimit.open()"
         [class]="{
-          'tf-input-invalid': form.get('limitDate')?.invalid && form.get('limitDate')?.touched,
-          'tf-input-valid': form.get('limitDate')?.valid && form.get('limitDate')?.touched
+          'tf-input-invalid': form.get('limit_date')?.invalid && form.get('limit_date')?.touched,
+          'tf-input-valid': form.get('limit_date')?.valid && form.get('limit_date')?.touched
         }"
         />
         <mat-datepicker #dpLimit></mat-datepicker>
@@ -41,8 +41,8 @@
 
       <div class="checkboxes-container">
         <div>
-          <input tfInput id="changeColorByDate" type="checkbox" formControlName="changeColorByDate" (change)="changeLimitDateValidation($event)" />
-          <label for="changeColorByDate">Ativar coloração por prazo</label>
+          <input tfInput id="change_color_by_date" type="checkbox" formControlName="change_color_by_date" (change)="changeLimitDateValidation($event)" />
+          <label for="change_color_by_date">Ativar coloração por prazo</label>
           <mat-icon
           clickableTooltip
           matTooltip="Ative para que o sistema altere a cor da checklist automaticamente de acordo com o prazo. (Verde: +3 dias, Amarelo: 1 a 3 dias, Vermelho: 24 hr)."
@@ -51,8 +51,8 @@
         </div>
 
         <div>
-          <input tfInput id="showMotivationalMsg" type="checkbox" formControlName="showMotivationalMsg" />
-          <label for="showMotivationalMsg">Mostrar mensagem motivacional</label>
+          <input tfInput id="show_motivational_msg" type="checkbox" formControlName="show_motivational_msg" />
+          <label for="show_motivational_msg">Mostrar mensagem motivacional</label>
           <mat-icon
           clickableTooltip
           matTooltip="Ative para receber mensagens motivacionais durante e ao concluir suas tarefas!"

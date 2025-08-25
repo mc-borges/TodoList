@@ -26,6 +26,15 @@ export class ChecklistCardComponent {
     this.statusColor = this.getStatusColor();
   }
 
+  get completedTasksCount(): number {
+    if (!this.data?.items) return 0;
+    return this.data.items.filter(item => item.completed).length;
+  }
+
+  get totalTasksCount(): number {
+    return this.data?.items?.length || 0;
+  }
+
   getStatusColor() {
     if (!this.data?.change_color_by_date) return '#30B43C';
 

@@ -1,25 +1,25 @@
-<a href="">
+<a [routerLink]="['/']">
   <img src="/images/logo_sm.png" alt="Logo TaFeito">
 </a>
 
 <div class="icons">
-  <a href="">
+  <a [routerLink]="['/about-us']">
     <img src="/images/icon_aboutus.svg" alt="">
     <span>Sobre nós</span>
   </a>
 
-  <a href="">
+  <a [routerLink]="['/contact']">
     <img src="/images/icon_contact.svg" alt="">
     <span>Contato</span>
   </a>
 
   @if (!['/', '/signup', '/login'].includes(router.url)) {
-    <a href="">
+    <a [routerLink]="['/home']">
       <img src="/images/icon_mychecklists.svg" alt="">
       <span>Minhas Checklists</span>
     </a>
 
-    <a href="">
+    <a [routerLink]="['/account']">
       <img src="/images/icon_myaccount.svg" alt="">
       <span>Minha Conta</span>
     </a>

@@ -49,9 +49,9 @@ export class NewChecklistComponent implements OnInit {
       name: [null, Validators.required],
       category: [null],
       description: [null],
-      limitDate: [null],
-      changeColorByDate: [false],
-      showMotivationalMsg: [false],
+      limit_date: [null],
+      change_color_by_date: [false],
+      show_motivational_msg: [false],
     });
   }
 
@@ -63,7 +63,7 @@ export class NewChecklistComponent implements OnInit {
   createChecklist() {
     this.form.markAllAsTouched();
 
-    if (this.form.get('changeColorByDate')?.value && this.form.get('limitDate')?.errors) {
+    if (this.form.get('change_color_by_date')?.value && this.form.get('limit_date')?.errors) {
       this.toastr.error('Ao marcar a opção "Ativar coloração por prazo", é necessário selecionar um prazo.');
 
       return;
@@ -94,19 +94,19 @@ export class NewChecklistComponent implements OnInit {
   resetCheckboxes() {
     this.form.reset();
 
-    this.form.get('changeColorByDate')?.setValue(false);
-    this.form.get('showMotivationalMsg')?.setValue(false);
-    this.form.get('limitDate')?.clearValidators();
-    this.form.get('limitDate')?.updateValueAndValidity();
+    this.form.get('change_color_by_date')?.setValue(false);
+    this.form.get('show_motivational_msg')?.setValue(false);
+    this.form.get('limit_date')?.clearValidators();
+    this.form.get('limit_date')?.updateValueAndValidity();
   }
 
   changeLimitDateValidation(event: any): void {
     if (event.target.checked) {
-      this.form.get('limitDate')?.setValidators([Validators.required]);
+      this.form.get('limit_date')?.setValidators([Validators.required]);
     } else {
-      this.form.get('limitDate')?.clearValidators();
+      this.form.get('limit_date')?.clearValidators();
     }
 
-    this.form.get('limitDate')?.updateValueAndValidity();
+    this.form.get('limit_date')?.updateValueAndValidity();
   }
 }

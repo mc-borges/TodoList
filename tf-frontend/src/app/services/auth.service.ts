@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { tap } from 'rxjs/operators';
-import { UserLogin, UserSignup } from '../helpers/types/user.type';
+import { UserLogin, UserResponse, UserSignup } from '../helpers/types/user.type';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,5 +34,9 @@ export class AuthService {
 
   isLoggedIn() {
     return !!this.getToken();
+  }
+
+  getUserData() {
+    return this.http.get<UserResponse>(`${this.apiUrl}/auth/me`);
   }
 }
