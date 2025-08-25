@@ -11,7 +11,7 @@ from config import settings
 from models import (
     User, UserCreate, UserLogin, UserResponse,
     Checklist, ChecklistCreate, ChecklistUpdate,
-    ChecklistItem, ChecklistItemCreate,
+    ChecklistItem, ChecklistItemCreate, ChecklistItemUpdate, ChecklistItemsBulkUpdate,
     Token, TokenData
 )
 from firebase_service import firebase_service
@@ -180,13 +180,18 @@ async def get_current_user_info(current_user: dict = Depends(get_current_user)):
 async def create_checklist(checklist: ChecklistCreate, current_user: dict = Depends(get_current_user)):
     db = firebase_service.get_db()
     
+    # Convert datetime to timestamp if provided
+    limit_date_timestamp = None
+    if checklist.limit_date:
+        limit_date_timestamp = checklist.limit_date
+    
     checklist_data = {
         "name": checklist.name,
         "category": checklist.category,
         "description": checklist.description,
-        "limit_date": checklist.limit_date,
-        "change_color_by_date": checklist.change_color_by_date,
-        "show_motivational_msg": checklist.show_motivational_msg,
+        "limit_date": limit_date_timestamp,
+        "change_color_by_date": bool(checklist.change_color_by_date),
+        "show_motivational_msg": bool(checklist.show_motivational_msg),
         "user_id": current_user['id'],
         "created_at": datetime.utcnow(),
         "updated_at": datetime.utcnow()
@@ -197,10 +202,22 @@ async def create_checklist(checklist: ChecklistCreate, current_user: dict = Depe
     doc_ref = checklists_ref.add(checklist_data)
     checklist_id = doc_ref[1].id
     
-    checklist_data['id'] = checklist_id
-    checklist_data['items'] = []
+    # Prepare response data with proper serialization
+    response_data = {
+        "id": checklist_id,
+        "name": checklist_data["name"],
+        "category": checklist_data["category"],
+        "description": checklist_data["description"],
+        "limit_date": checklist_data["limit_date"].isoformat() if checklist_data["limit_date"] else None,
+        "change_color_by_date": checklist_data["change_color_by_date"],
+        "show_motivational_msg": checklist_data["show_motivational_msg"],
+        "user_id": checklist_data["user_id"],
+        "created_at": checklist_data["created_at"].isoformat(),
+        "updated_at": checklist_data["updated_at"].isoformat(),
+        "items": []
+    }
     
-    return checklist_data
+    return response_data
 
 @app.get("/checklists", response_model=List[dict])
 async def get_user_checklists(current_user: dict = Depends(get_current_user)):
@@ -213,7 +230,20 @@ async def get_user_checklists(current_user: dict = Depends(get_current_user)):
     checklists = []
     for checklist_doc in user_checklists:
         checklist_data = checklist_doc.to_dict()
-        checklist_data['id'] = checklist_doc.id
+        
+        # Prepare response data with proper serialization
+        response_checklist = {
+            "id": checklist_doc.id,
+            "name": checklist_data.get("name"),
+            "category": checklist_data.get("category"),
+            "description": checklist_data.get("description"),
+            "limit_date": checklist_data.get("limit_date").isoformat() if checklist_data.get("limit_date") else None,
+            "change_color_by_date": bool(checklist_data.get("change_color_by_date", False)),
+            "show_motivational_msg": bool(checklist_data.get("show_motivational_msg", False)),
+            "user_id": checklist_data.get("user_id"),
+            "created_at": checklist_data.get("created_at").isoformat() if checklist_data.get("created_at") else None,
+            "updated_at": checklist_data.get("updated_at").isoformat() if checklist_data.get("updated_at") else None
+        }
         
         # Get checklist items
         items_ref = db.collection('checklist_items')
@@ -222,11 +252,19 @@ async def get_user_checklists(current_user: dict = Depends(get_current_user)):
         items = []
         for item_doc in items_query:
             item_data = item_doc.to_dict()
-            item_data['id'] = item_doc.id
-            items.append(item_data)
+            item_response = {
+                "id": item_doc.id,
+                "title": item_data.get("title"),
+                "completed": bool(item_data.get("completed", False)),
+                "description": item_data.get("description"),
+                "checklist_id": item_data.get("checklist_id"),
+                "created_at": item_data.get("created_at").isoformat() if item_data.get("created_at") else None,
+                "updated_at": item_data.get("updated_at").isoformat() if item_data.get("updated_at") else None
+            }
+            items.append(item_response)
         
-        checklist_data['items'] = items
-        checklists.append(checklist_data)
+        response_checklist['items'] = items
+        checklists.append(response_checklist)
     
     return checklists
 
@@ -247,7 +285,19 @@ async def get_checklist(checklist_id: str, current_user: dict = Depends(get_curr
     if checklist_data['user_id'] != current_user['id']:
         raise HTTPException(status_code=403, detail="Access denied")
     
-    checklist_data['id'] = checklist_doc.id
+    # Prepare response data with proper serialization
+    response_checklist = {
+        "id": checklist_doc.id,
+        "name": checklist_data.get("name"),
+        "category": checklist_data.get("category"),
+        "description": checklist_data.get("description"),
+        "limit_date": checklist_data.get("limit_date").isoformat() if checklist_data.get("limit_date") else None,
+        "change_color_by_date": bool(checklist_data.get("change_color_by_date", False)),
+        "show_motivational_msg": bool(checklist_data.get("show_motivational_msg", False)),
+        "user_id": checklist_data.get("user_id"),
+        "created_at": checklist_data.get("created_at").isoformat() if checklist_data.get("created_at") else None,
+        "updated_at": checklist_data.get("updated_at").isoformat() if checklist_data.get("updated_at") else None
+    }
     
     # Get checklist items
     items_ref = db.collection('checklist_items')
@@ -256,12 +306,20 @@ async def get_checklist(checklist_id: str, current_user: dict = Depends(get_curr
     items = []
     for item_doc in items_query:
         item_data = item_doc.to_dict()
-        item_data['id'] = item_doc.id
-        items.append(item_data)
+        item_response = {
+            "id": item_doc.id,
+            "title": item_data.get("title"),
+            "completed": bool(item_data.get("completed", False)),
+            "description": item_data.get("description"),
+            "checklist_id": item_data.get("checklist_id"),
+            "created_at": item_data.get("created_at").isoformat() if item_data.get("created_at") else None,
+            "updated_at": item_data.get("updated_at").isoformat() if item_data.get("updated_at") else None
+        }
+        items.append(item_response)
     
-    checklist_data['items'] = items
+    response_checklist['items'] = items
     
-    return checklist_data
+    return response_checklist
 
 @app.put("/checklists/{checklist_id}", response_model=dict)
 async def update_checklist(checklist_id: str, checklist_update: ChecklistUpdate, current_user: dict = Depends(get_current_user)):
@@ -291,21 +349,33 @@ async def update_checklist(checklist_id: str, checklist_update: ChecklistUpdate,
     if checklist_update.limit_date is not None:
         update_data['limit_date'] = checklist_update.limit_date
     if checklist_update.change_color_by_date is not None:
-        update_data['change_color_by_date'] = checklist_update.change_color_by_date
+        update_data['change_color_by_date'] = bool(checklist_update.change_color_by_date)
     if checklist_update.show_motivational_msg is not None:
-        update_data['show_motivational_msg'] = checklist_update.show_motivational_msg
+        update_data['show_motivational_msg'] = bool(checklist_update.show_motivational_msg)
     
     update_data['updated_at'] = datetime.utcnow()
     
     # Update in Firestore
     checklist_ref.update(update_data)
     
-    # Return updated checklist
+    # Return updated checklist with proper serialization
     updated_doc = checklist_ref.get()
     updated_data = updated_doc.to_dict()
-    updated_data['id'] = checklist_id
     
-    return updated_data
+    response_data = {
+        "id": checklist_id,
+        "name": updated_data.get("name"),
+        "category": updated_data.get("category"),
+        "description": updated_data.get("description"),
+        "limit_date": updated_data.get("limit_date").isoformat() if updated_data.get("limit_date") else None,
+        "change_color_by_date": bool(updated_data.get("change_color_by_date", False)),
+        "show_motivational_msg": bool(updated_data.get("show_motivational_msg", False)),
+        "user_id": updated_data.get("user_id"),
+        "created_at": updated_data.get("created_at").isoformat() if updated_data.get("created_at") else None,
+        "updated_at": updated_data.get("updated_at").isoformat() if updated_data.get("updated_at") else None
+    }
+    
+    return response_data
 
 @app.delete("/checklists/{checklist_id}")
 async def delete_checklist(checklist_id: str, current_user: dict = Depends(get_current_user)):
@@ -336,8 +406,13 @@ async def delete_checklist(checklist_id: str, current_user: dict = Depends(get_c
     
     return {"message": "Checklist deleted successfully"}
 
-@app.post("/checklists/{checklist_id}/items", response_model=dict)
-async def create_checklist_item(checklist_id: str, item: ChecklistItemCreate, current_user: dict = Depends(get_current_user)):
+@app.put("/checklists/{checklist_id}/items", response_model=dict)
+async def update_checklist_items(checklist_id: str, items_data: ChecklistItemsBulkUpdate, current_user: dict = Depends(get_current_user)):
+    """
+    Update all items in a checklist in bulk.
+    Creates new items (items without id) and updates existing items (items with id).
+    Removes items that are not in the request.
+    """
     db = firebase_service.get_db()
     
     # Verify checklist exists and user owns it
@@ -351,94 +426,60 @@ async def create_checklist_item(checklist_id: str, item: ChecklistItemCreate, cu
     if checklist_data['user_id'] != current_user['id']:
         raise HTTPException(status_code=403, detail="Access denied")
     
-    # Create checklist item
-    item_data = {
-        "title": item.title,
-        "description": item.description,
-        "completed": item.completed,
-        "checklist_id": checklist_id,
-        "created_at": datetime.utcnow(),
-        "updated_at": datetime.utcnow()
+    # Get current items
+    current_items_query = db.collection('checklist_items').where('checklist_id', '==', checklist_id)
+    current_items_docs = current_items_query.stream()
+    current_items_ids = {doc.id for doc in current_items_docs}
+    
+    # Track which items we're keeping/updating
+    items_to_keep = set()
+    updated_items = []
+    
+    # Process each item from the request
+    for item in items_data.items:
+        item_data = {
+            "title": item.title,
+            "description": item.description,
+            "completed": item.completed,
+            "checklist_id": checklist_id,
+            "updated_at": datetime.utcnow()
+        }
+        
+        if item.id and item.id in current_items_ids:
+            # Update existing item
+            item_ref = db.collection('checklist_items').document(item.id)
+            item_ref.update(item_data)
+            items_to_keep.add(item.id)
+            
+            # Get updated data
+            updated_doc = item_ref.get()
+            updated_item_data = updated_doc.to_dict()
+            updated_item_data['id'] = item.id
+            updated_items.append(updated_item_data)
+            
+        else:
+            # Create new item
+            item_data["created_at"] = datetime.utcnow()
+            items_ref = db.collection('checklist_items')
+            doc_ref = items_ref.add(item_data)
+            new_item_id = doc_ref[1].id
+            
+            item_data['id'] = new_item_id
+            updated_items.append(item_data)
+            items_to_keep.add(new_item_id)
+    
+    # Delete items that are not in the new list
+    items_to_delete = current_items_ids - items_to_keep
+    for item_id in items_to_delete:
+        db.collection('checklist_items').document(item_id).delete()
+    
+    return {
+        "message": "Checklist items updated successfully",
+        "items": updated_items,
+        "created_count": len([item for item in items_data.items if not item.id or item.id not in current_items_ids]),
+        "updated_count": len([item for item in items_data.items if item.id and item.id in current_items_ids]),
+        "deleted_count": len(items_to_delete)
     }
-    
-    # Add item to Firestore
-    items_ref = db.collection('checklist_items')
-    doc_ref = items_ref.add(item_data)
-    item_id = doc_ref[1].id
-    
-    item_data['id'] = item_id
-    
-    return item_data
-
-@app.put("/checklist-items/{item_id}", response_model=dict)
-async def update_checklist_item(item_id: str, item_update: ChecklistItemCreate, current_user: dict = Depends(get_current_user)):
-    db = firebase_service.get_db()
-    
-    # Get item
-    item_ref = db.collection('checklist_items').document(item_id)
-    item_doc = item_ref.get()
-    
-    if not item_doc.exists:
-        raise HTTPException(status_code=404, detail="Item not found")
-    
-    item_data = item_doc.to_dict()
-    
-    # Verify ownership through checklist
-    checklist_ref = db.collection('checklists').document(item_data['checklist_id'])
-    checklist_doc = checklist_ref.get()
-    
-    if not checklist_doc.exists:
-        raise HTTPException(status_code=404, detail="Checklist not found")
-    
-    checklist_data = checklist_doc.to_dict()
-    if checklist_data['user_id'] != current_user['id']:
-        raise HTTPException(status_code=403, detail="Access denied")
-    
-    # Update item
-    update_data = {
-        "title": item_update.title,
-        "description": item_update.description,
-        "completed": item_update.completed,
-        "updated_at": datetime.utcnow()
-    }
-    
-    item_ref.update(update_data)
-    
-    # Return updated item
-    updated_doc = item_ref.get()
-    updated_data = updated_doc.to_dict()
-    updated_data['id'] = item_id
-    
-    return updated_data
-
-@app.delete("/checklist-items/{item_id}")
-async def delete_checklist_item(item_id: str, current_user: dict = Depends(get_current_user)):
-    db = firebase_service.get_db()
-    
-    # Get item
-    item_ref = db.collection('checklist_items').document(item_id)
-    item_doc = item_ref.get()
-    
-    if not item_doc.exists:
-        raise HTTPException(status_code=404, detail="Item not found")
-    
-    item_data = item_doc.to_dict()
-    
-    # Verify ownership through checklist
-    checklist_ref = db.collection('checklists').document(item_data['checklist_id'])
-    checklist_doc = checklist_ref.get()
-    
-    if not checklist_doc.exists:
-        raise HTTPException(status_code=404, detail="Checklist not found")
-    
-    checklist_data = checklist_doc.to_dict()
-    if checklist_data['user_id'] != current_user['id']:
-        raise HTTPException(status_code=403, detail="Access denied")
-    
-    # Delete item
-    item_ref.delete()
-    
-    return {"message": "Item deleted successfully"}
 
 if __name__ == "__main__":
     import uvicorn
