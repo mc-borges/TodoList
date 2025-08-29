@@ -1,1 +1,50 @@
-<p>contact works!</p>
+<div class="contact-container">
+  <header class="page-header">
+    <button class="back-button" (click)="goBack()" [attr.aria-label]="'Voltar'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 12H5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 19L5 12L12 5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <h1>Fale Conosco</h1>
+  </header>
+
+  <p class="intro-text">
+    Tem alguma dúvida, sugestão ou crítica? Adoraríamos ouvir você! Preencha o formulário abaixo e nossa equipe entrará em contato o mais breve possível.
+  </p>
+
+  <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Nome completo</label>
+      <input type="text" id="name" formControlName="name" placeholder="Digite seu nome">
+      @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
+        <span class="error-message">Seu nome é obrigatório.</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Seu melhor e-mail</label>
+      <input type="email" id="email" formControlName="email" placeholder="exemplo@email.com">
+      @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
+        <span class="error-message">Por favor, insira um e-mail válido.</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="subject">Assunto (Opcional)</label>
+      <input type="text" id="subject" formControlName="subject" placeholder="Sobre o que você quer falar?">
+    </div>
+
+    <div class="form-group">
+      <label for="message">Sua mensagem</label>
+      <textarea id="message" formControlName="message" rows="6" placeholder="Escreva sua mensagem aqui..."></textarea>
+      @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
+        <span class="error-message">A mensagem precisa ter pelo menos 10 caracteres.</span>
+      }
+    </div>
+
+    <button type="submit" class="submit-btn" [disabled]="contactForm.invalid">
+      Enviar Mensagem
+    </button>
+  </form>
+</div>

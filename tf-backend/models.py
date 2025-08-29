@@ -93,3 +93,11 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str
