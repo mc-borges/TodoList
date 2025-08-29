@@ -1,5 +1,30 @@
 @if (user) {
-  <h2>{{  user.name }}</h2>
-  <h2>{{  user.email }}</h2>
-  <h2>{{  user.phone | mask: '(00) 00000-0000'}}</h2>
+  <div class="account-page">
+    <section class="card">
+      <div class="header">
+        <div class="avatar" aria-hidden="true">✓</div>
+
+        <div class="identity">
+          <h1 class="name">{{ user.name }}</h1>
+
+          <div class="row">
+            <span class="icon" aria-hidden="true">✉</span>
+            <a class="link" [href]="'mailto:' + user.email">{{ user.email.replace('@', '&#64;') }}</a>
+          </div>
+
+          <div class="row">
+            <span class="icon" aria-hidden="true">📞</span>
+            <a class="link" [href]="'tel:' + user.phone">{{ user.phone | mask: '(00) 00000-0000' }}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider" role="separator" aria-hidden="true"></div>
+
+      <div class="actions">
+        <button class="btn outline" type="button">Editar perfil</button>
+        <button class="btn solid" type="button">Alterar senha</button>
+      </div>
+    </section>
+  </div>
 }

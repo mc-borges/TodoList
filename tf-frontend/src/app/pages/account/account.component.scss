@@ -1,0 +1,63 @@
+.account-page { max-width: 960px; margin: 0 auto; padding: 24px; }
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.06);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 28px;
+  background: #e8f5e9; color: #0f9d58;
+}
+
+.name {
+  font-size: clamp(20px, 3.2vw, 28px);
+  line-height: 1.2;
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  margin-top: 4px;
+}
+
+.icon { opacity: .75; }
+.link { text-decoration: none; color: inherit; }
+
+.divider { height: 1px; background: #eee; margin: 16px 0; }
+
+.actions { display: flex; gap: 12px; justify-content: flex-end; padding-top: 8px; }
+
+.btn {
+  border: 1px solid #ddd;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #fff;
+}
+.btn.solid {
+  background: #0f9d58; color: #fff; border-color: #0f9d58;
+}
+.btn:hover { filter: brightness(.97); }
+
+@media (max-width: 640px) {
+  .header { grid-template-columns: 1fr; }
+  .avatar { margin-bottom: 8px; }
+}
