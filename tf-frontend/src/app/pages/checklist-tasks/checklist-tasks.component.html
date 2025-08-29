@@ -1,4 +1,9 @@
-<img src="/images/icon_arrow_left.svg" alt="Seta para esquerda" (click)="cancel()" class="return-arrow">
+<img
+  src="/images/icon_arrow_left.svg"
+  alt="Seta para esquerda"
+  (click)="cancel()"
+  class="return-arrow"
+/>
 
 <div class="title-container">
   <h4>{{ checklist?.name }}</h4>
@@ -12,31 +17,60 @@
 
     <div cdkDropList (cdkDropListDropped)="drop($event)" formArrayName="form">
       @for (item of items; track item) {
-        <div [formGroupName]="$index" cdkDrag cdkDragLockAxis="y" class="task-item-container">
-          <div class="input-inner input-inner-left">
-            <mat-icon title="Arrastar" cdkDragHandle>drag_indicator</mat-icon>
-            <input tfInput type="checkbox" formControlName="completed">
-          </div>
-
-          @if (item.get('title')?.value?.trim() && form.length > 1) {
-            <div class="input-inner input-inner-right">
-              <img src="/images/icon_pencil.svg" title="Editar" (click)="editItem($index)" />
-              <img src="/images/icon_bin_secondary.svg" title="Excluir" (click)="removeItem($index)" />
-            </div>
-          }
-
-          <input tfInput type="text" placeholder="Adicionar tarefa" formControlName="title"
-          [class]="{'input-filled': item.get('title')?.value?.trim(),
-          'tf-input-invalid': item.get('title')?.invalid && item.get('title')?.touched && saveItemsClicked,
-          'tf-input-completed': item.get('completed')?.value}"
-          [id]="'task-' + $index">
+      <div
+        [formGroupName]="$index"
+        cdkDrag
+        cdkDragLockAxis="y"
+        class="task-item-container"
+      >
+        <div class="input-inner input-inner-left">
+          <mat-icon title="Arrastar" cdkDragHandle>drag_indicator</mat-icon>
+          <input tfInput type="checkbox" formControlName="completed" />
         </div>
+
+        @if (item.get('title')?.value?.trim() && form.length > 1) {
+        <div class="input-inner input-inner-right">
+          <img
+            src="/images/icon_pencil.svg"
+            title="Editar"
+            (click)="editItem($index)"
+          />
+          <img
+            src="/images/icon_bin_secondary.svg"
+            title="Excluir"
+            (click)="removeItem($index)"
+          />
+        </div>
+        }
+
+        <input
+          tfInput
+          type="text"
+          placeholder="Adicionar tarefa"
+          formControlName="title"
+          [class]="{
+            'input-filled': item.get('title')?.value?.trim(),
+            'tf-input-invalid':
+              item.get('title')?.invalid &&
+              item.get('title')?.touched &&
+              saveItemsClicked,
+            'tf-input-completed': item.get('completed')?.value
+          }"
+          [id]="'task-' + $index"
+        />
+      </div>
       }
     </div>
 
     <div class="add-item-container">
-      <button tfButton color="primary" type="button" (click)="addItem()" [disabled]="form.invalid">
-        <img src="/images/icon_plus.svg" alt="">
+      <button
+        tfButton
+        color="primary"
+        type="button"
+        (click)="addItem()"
+        [disabled]="form.invalid"
+      >
+        <img src="/images/icon_plus.svg" alt="" />
       </button>
     </div>
   </div>
@@ -46,35 +80,49 @@
 
     <div class="status-container">
       @if (hasAnyValue) {
-          <img [src]="'/images/img_tasks_empty.png'" alt="">
+      <img [src]="'/images/img_tasks_empty.png'" alt="" />
 
-          <div>
-            <p>{{ motivMessage?.frase || 'Sua lista de tarefas ainda está vazia, vamos movimentar?' }}</p>
-          </div>
+      <div>
+        <p>
+          {{
+            motivMessage?.frase ||
+              "Sua lista de tarefas ainda está vazia, vamos movimentar?"
+          }}
+        </p>
+      </div>
       } @else if (!isAllCompleted) {
-        <img [src]="'/images/img_tasks_standby.png'" alt="">
+      <img [src]="'/images/img_tasks_standby.png'" alt="" />
 
-        <div>
-          <p>{{ '"' + motivMessage?.frase + '."' || 'A vida tá cheia de coisas pra fazer, mas a gente tá aqui pra te ajudar. Bora riscar essa lista?' }}</p>
-        </div>
+      <div>
+        <p>
+          {{
+            motivMessage?.frase ||
+              "A vida tá cheia de coisas pra fazer, mas a gente tá aqui pra te ajudar. Bora riscar essa lista?"
+          }}
+        </p>
+      </div>
       } @else {
-        <img [src]="'/images/img_tasks_completed.png'" alt="">
-          @if (motivMessage?.frase) {
-            <div>
-              <p>"{{ motivMessage?.frase }}."</p>
-            </div>
-          } @else {
-            <div>
-              <p>Parabéns!<br>Você concluiu todas as tarefas dessa checklist.</p>
-              <p>Dá tempo até de tomar um cafezinho. <img src="/images/icon_coffee.svg" alt=""></p>
-            </div>
-          }
-      }
+      <img [src]="'/images/img_tasks_completed.png'" alt="" />
+      @if (motivMessage?.frase) {
+      <div>
+        <p>"{{ motivMessage?.frase }}."</p>
+      </div>
+      } @else {
+      <div>
+        <p>Parabéns!<br />Você concluiu todas as tarefas dessa checklist.</p>
+        <p>
+          Dá tempo até de tomar um cafezinho.
+          <img src="/images/icon_coffee.svg" alt="" />
+        </p>
+      </div>
+      } }
     </div>
 
     <div class="buttons-container">
       <button tfButton color="primary" type="submit">Salvar dados</button>
-      <button tfButton color="secondary" type="button" (click)="cancel()">Cancelar</button>
+      <button tfButton color="secondary" type="button" (click)="cancel()">
+        Cancelar
+      </button>
     </div>
   </div>
 </form>
