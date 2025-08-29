@@ -15,6 +15,7 @@ from models import (
     Token, TokenData
 )
 from firebase_service import firebase_service
+from models import UserUpdate, PasswordChange
 
 app = FastAPI(title=settings.app_name, debug=settings.debug)
 
@@ -175,6 +176,49 @@ async def get_current_user_info(current_user: dict = Depends(get_current_user)):
         "name": current_user['name'],
         "phone": current_user.get('phone')
     }
+
+
+@app.put("/auth/profile", response_model=dict)
+async def update_profile(update: UserUpdate, current_user: dict = Depends(get_current_user)):
+    db = firebase_service.get_db()
+    doc_ref = db.collection('users').document(current_user['id'])
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    update_data = {"updated_at": datetime.utcnow()}
+    if update.name is not None:
+        update_data["name"] = update.name
+    if update.phone is not None:
+        update_data["phone"] = update.phone
+
+    if len(update_data) > 1:
+        doc_ref.update(update_data)
+
+    u = doc_ref.get().to_dict()
+    return {
+        "id": current_user["id"],
+        "email": u.get("email"),
+        "name": u.get("name"),
+        "phone": u.get("phone"),
+    }
+
+@app.put("/auth/password", response_model=dict)
+async def change_password(body: PasswordChange, current_user: dict = Depends(get_current_user)):
+    db = firebase_service.get_db()
+    doc_ref = db.collection('users').document(current_user['id'])
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    u = doc.to_dict()
+    if not verify_password(body.current_password, u["password"]):
+        raise HTTPException(status_code=400, detail="Senha atual incorreta")
+
+    new_hash = get_password_hash(body.new_password)
+    doc_ref.update({"password": new_hash, "updated_at": datetime.utcnow()})
+    return {"message": "Senha alterada com sucesso"}
+
 
 @app.post("/checklists", response_model=dict)
 async def create_checklist(checklist: ChecklistCreate, current_user: dict = Depends(get_current_user)):
