@@ -4,6 +4,8 @@ import { AuthService } from '../../services/auth.service';
 import { LoadingService } from '../../services/loading.service';
 import { finalize } from 'rxjs';
 import { NgxMaskPipe } from 'ngx-mask';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account',
@@ -15,7 +17,7 @@ import { NgxMaskPipe } from 'ngx-mask';
 export class AccountComponent implements OnInit {
   user!: UserResponse;
 
-  constructor(private auth: AuthService, private loading: LoadingService) { }
+  constructor(private auth: AuthService, private loading: LoadingService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getUserData();
@@ -28,5 +30,13 @@ export class AccountComponent implements OnInit {
       next: (data) => this.user = data,
       error: (e) => console.error(e),
     });
+  }
+
+  logout() {
+    this.auth.logout();
+
+    this.toastr.success('Logout realizado.');
+
+    this.router.navigate(['/login']);
   }
 }

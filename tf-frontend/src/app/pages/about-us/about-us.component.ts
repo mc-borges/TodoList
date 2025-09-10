@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 
-// Estrutura para tipagem dos criadores (opcional, mas boa prática)
 interface Creator {
   name: string;
   course: string;
@@ -11,7 +10,7 @@ interface Creator {
     whatsapp: string;
     linkedin: string;
     email: string;
-    portfolio: string; // Pode ser GitHub, Lattes, etc.
+    portfolio: string;
   };
 }
 
@@ -23,87 +22,83 @@ interface Creator {
   styleUrl: './about-us.component.scss'
 })
 export class AboutUsComponent {
-
-  // Dados dos criadores para serem exibidos na página
-  // IMPORTANTE: Ajuste os caminhos em 'imageUrl' para corresponder à sua pasta de assets.
   creators: Creator[] = [
     {
-      name: 'Clara Borges',
+      name: 'Maria Clara Borges',
       course: 'Sistemas de Informação',
       role: 'UX/UI Designer',
-      imageUrl: 'assets/images/creators/clara.png',
+      imageUrl: '/images/maria.jpeg',
       socialLinks: {
-        whatsapp: '#',
-        linkedin: '#',
-        email: 'mailto:email@example.com',
-        portfolio: '#'
+        whatsapp: 'https://api.whatsapp.com/send?phone=556492213310&text=Contato%20sobre%20TaFeito',
+        linkedin: 'https://www.linkedin.com/in/mariaclaraborges/',
+        email: 'mailto:mariaclarasborges@hotmail.com',
+        portfolio: 'https://clara-borges--portflio.super.site/'
       }
     },
     {
       name: 'Willy Naresse',
       course: 'Sistemas de Informação',
       role: 'Front-end',
-      imageUrl: 'assets/images/creators/willy.png',
+      imageUrl: '/images/willy.png',
       socialLinks: {
-        whatsapp: '#',
-        linkedin: '#',
-        email: 'mailto:email@example.com',
-        portfolio: '#'
+        whatsapp: 'https://api.whatsapp.com/send?phone=553498887717&text=Contato%20sobre%20TaFeito',
+        linkedin: 'https://www.linkedin.com/in/willynaresse/',
+        email: 'mailto:willnaresse@gmail.com',
+        portfolio: 'https://w-digitalresume.netlify.app/'
       }
     },
     {
       name: 'Eduardo Marson',
       course: 'Sistemas de Informação',
       role: 'Banco de dados',
-      imageUrl: 'assets/images/creators/eduardo.png',
+      imageUrl: '/images/eduardo.jpeg',
       socialLinks: {
-        whatsapp: '#',
-        linkedin: '#',
-        email: 'mailto:email@example.com',
-        portfolio: '#'
+        whatsapp: 'https://api.whatsapp.com/send?phone=553492470151&text=Contato%20sobre%20TaFeito',
+        linkedin: 'https://www.linkedin.com/in/eduardo-oliveira-marson-85539a322/',
+        email: 'mailto:marsoneduardooliveira@gmail.com',
+        portfolio: 'https://github.com/EduardooMarson'
       }
     },
     {
       name: 'João Gabriel',
       course: 'Sistemas de Informação',
       role: 'Back-end',
-      imageUrl: 'assets/images/creators/joao.png',
+      imageUrl: '/images/joao.jpg',
       socialLinks: {
-        whatsapp: '#',
-        linkedin: '#',
-        email: 'mailto:email@example.com',
-        portfolio: '#'
+        whatsapp: 'https://api.whatsapp.com/send?phone=553898791639&text=Contato%20sobre%20TaFeito',
+        linkedin: 'https://www.linkedin.com/in/joãogabrielsrodrigues',
+        email: 'mailto:joaogsrodrigues21@gmail.com',
+        portfolio: 'https://github.com/JoaoGabriel-SR'
       }
     },
     {
       name: 'Fabrício Stecca',
       course: 'Sistemas de Informação',
       role: 'Back-end',
-      imageUrl: 'assets/images/creators/fabricio.png',
+      imageUrl: '/images/fabricio.jpeg',
       socialLinks: {
-        whatsapp: '#',
-        linkedin: '#',
-        email: 'mailto:email@example.com',
-        portfolio: '#'
+        whatsapp: 'https://api.whatsapp.com/send?phone=553496975551&text=Contato%20sobre%20TaFeito',
+        linkedin: 'https://www.linkedin.com/in/fabricio-stecca/',
+        email: 'mailto:fabricio.stecca200@gmail.com',
+        portfolio: 'https://github.com/fabricio-stecca'
       }
     },
     {
       name: 'Gustavo Teixeira',
       course: 'Sistemas de Informação',
       role: 'Back-end',
-      imageUrl: 'assets/images/creators/gustavo.png',
+      imageUrl: '/images/gustavo.jpg',
       socialLinks: {
-        whatsapp: '#',
-        linkedin: '#',
+        whatsapp: 'https://api.whatsapp.com/send?phone=559499445212&text=Contato%20sobre%20TaFeito',
+        linkedin: 'https://www.linkedin.com/',
         email: 'mailto:email@example.com',
-        portfolio: '#'
+        portfolio: 'https://github.com/'
       }
     }
   ];
 
   constructor(private location: Location) { }
 
-  // Função para navegar para a página anterior
   goBack(): void {
     this.location.back();
   }

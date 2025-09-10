@@ -1,47 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { LoadingService } from '../../services/loading.service';
+import { InputComponent } from "../../components/input/input.component";
+import { ButtonComponent } from '../../components/button/button.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  // Importante: Adicionamos ReactiveFormsModule aqui para o formulário funcionar
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, InputComponent, ButtonComponent],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
 export class ContactComponent implements OnInit {
-  // A '!' indica ao TypeScript que esta propriedade será inicializada no construtor
   contactForm!: FormGroup;
-  
-  // Injetamos o FormBuilder para criar o formulário e o Location para o botão "voltar"
-  constructor(private fb: FormBuilder, private location: Location) { }
+
+  constructor(private fb: FormBuilder, private location: Location, private toastr: ToastrService, private loading: LoadingService) { }
 
   ngOnInit(): void {
-    // Criamos a estrutura do formulário com seus campos e validações
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      subject: [''], // Campo opcional
+      subject: [''],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
 
-  // Função chamada quando o formulário é enviado
   onSubmit(): void {
-    if (this.contactForm.valid) {
-      console.log('Dados do Formulário:', this.contactForm.value);
-      // Em um projeto real, aqui você faria a chamada para uma API para enviar o email.
-      // Por enquanto, exibimos um alerta e limpamos o formulário.
-      alert('Mensagem enviada com sucesso! (Verifique o console para ver os dados)');
+    this.contactForm.markAllAsTouched();
+
+    if (this.contactForm.invalid) {
+      this.toastr.error('É necessário preencher o nome, e-mail e uma mensagem com ao menos 10 caracteres.');
+
+      return;
+    };
+
+    this.loading.on();
+
+    setTimeout(() => {
+      this.loading.off();
+
+      this.toastr.success('Mensagem enviada com sucesso.');
       this.contactForm.reset();
-    } else {
-      // Marca todos os campos como "tocados" para exibir os erros de validação
-      this.contactForm.markAllAsTouched();
-    }
+    }, 1000);
   }
 
-  // Função para navegar para a página anterior
   goBack(): void {
     this.location.back();
   }

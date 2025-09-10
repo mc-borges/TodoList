@@ -16,7 +16,7 @@
   <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="name">Nome completo</label>
-      <input type="text" id="name" formControlName="name" placeholder="Digite seu nome">
+      <input tfInput type="text" id="name" formControlName="name" placeholder="Digite seu nome">
       @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
         <span class="error-message">Seu nome é obrigatório.</span>
       }
@@ -24,7 +24,7 @@
 
     <div class="form-group">
       <label for="email">Seu melhor e-mail</label>
-      <input type="email" id="email" formControlName="email" placeholder="exemplo@email.com">
+      <input tfInput type="email" id="email" formControlName="email" placeholder="exemplo@email.com">
       @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
         <span class="error-message">Por favor, insira um e-mail válido.</span>
       }
@@ -32,18 +32,18 @@
 
     <div class="form-group">
       <label for="subject">Assunto (Opcional)</label>
-      <input type="text" id="subject" formControlName="subject" placeholder="Sobre o que você quer falar?">
+      <input tfInput type="text" id="subject" formControlName="subject" placeholder="Sobre o que você quer falar?">
     </div>
 
     <div class="form-group">
       <label for="message">Sua mensagem</label>
-      <textarea id="message" formControlName="message" rows="6" placeholder="Escreva sua mensagem aqui..."></textarea>
+      <textarea tfInput id="message" formControlName="message" rows="6" placeholder="Escreva sua mensagem aqui..."></textarea>
       @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
         <span class="error-message">A mensagem precisa ter pelo menos 10 caracteres.</span>
       }
     </div>
 
-    <button type="submit" class="submit-btn" [disabled]="contactForm.invalid">
+    <button type="submit" class="submit-btn" [disabled]="contactForm.invalid" color="primary">
       Enviar Mensagem
     </button>
   </form>
