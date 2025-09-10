@@ -1,5 +1,105 @@
 @if (user) {
-  <h2>{{  user.name }}</h2>
-  <h2>{{  user.email }}</h2>
-  <h2>{{  user.phone | mask: '(00) 00000-0000'}}</h2>
+  <div class="account-page">
+    <!-- Hero header -->
+    <header class="hero">
+      <div class="hero-content">
+        <div class="avatar-lg" aria-hidden="true">
+          {{ (user.name && user.name[0]) || '👤' }}
+        </div>
+        <div class="hero-text">
+          <h1 class="name">{{ user.name }}</h1>
+          <p class="sub">Conta pessoal</p>
+          <div class="chips">
+            <span class="chip chip--green">Ativo</span>
+            <span class="chip">Membro</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content grid -->
+    <main class="grid">
+      <!-- Contact / primary card -->
+      <section class="card card--span-2">
+        <h2 class="section-title">Informações de contato</h2>
+
+        <div class="rows">
+          <div class="row">
+            <span class="icon" aria-hidden="true">✉</span>
+            <a class="link" [href]="'mailto:' + user.email">{{ user.email }}</a>
+          </div>
+
+          <div class="row">
+            <span class="icon" aria-hidden="true">📞</span>
+            <a class="link" [href]="'tel:' + user.phone">{{ user.phone | mask: '(00) 00000-0000' }}</a>
+          </div>
+        </div>
+
+        <div class="divider" role="separator" aria-hidden="true"></div>
+
+        <div class="actions">
+          <button class="btn outline" type="button">Editar perfil</button>
+          <button class="btn solid" type="button">Alterar senha</button>
+        </div>
+      </section>
+
+      <!-- Security -->
+      <section class="card">
+        <h2 class="section-title">Segurança</h2>
+        <ul class="list">
+          <li class="list-item">
+            <span>Autenticação em duas etapas</span>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li class="list-item">
+            <span>Alertas de login por e-mail</span>
+            <label class="switch">
+              <input type="checkbox" checked />
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li class="list-item">
+            <span>Bloquear sessão após 15 min de inatividade</span>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Preferences -->
+      <section class="card">
+        <h2 class="section-title">Preferências</h2>
+        <div class="prefs">
+          <label class="check"><input type="checkbox" /> <span>Pré-carregar páginas em segundo plano</span></label>
+          <label class="check"><input type="checkbox" /> <span>Otimizar carregamento de imagens</span></label>
+          <label class="check"><input type="checkbox" /> <span>Sincronizar preferências entre dispositivos</span></label>
+          <label class="check"><input type="checkbox" /> <span>Ativar relatórios de uso anônimos</span></label>
+        </div>
+      </section>
+
+      <!-- Details -->
+      <section class="card card--span-2">
+        <h2 class="section-title">Detalhes</h2>
+        <dl class="details">
+          <div class="detail">
+            <dt>Nome completo</dt>
+            <dd>{{ user.name }}</dd>
+          </div>
+          <div class="detail">
+            <dt>E-mail</dt>
+            <dd>{{ user.email }}</dd>
+          </div>
+          <div class="detail">
+            <dt>Telefone</dt>
+            <dd>{{ user.phone | mask: '(00) 00000-0000' }}</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+  </div>
 }
