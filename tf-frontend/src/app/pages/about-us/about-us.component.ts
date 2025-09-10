@@ -90,9 +90,9 @@ export class AboutUsComponent {
       imageUrl: '/images/gustavo.jpg',
       socialLinks: {
         whatsapp: 'https://api.whatsapp.com/send?phone=559499445212&text=Contato%20sobre%20TaFeito',
-        linkedin: 'https://www.linkedin.com/',
-        email: 'mailto:email@example.com',
-        portfolio: 'https://github.com/'
+        linkedin: 'https://www.linkedin.com/in/teixeira-dev',
+        email: 'mailto:matos.teixeira10@gmail.com',
+        portfolio: 'https://github.com/teixeira-dev'
       }
     }
   ];
